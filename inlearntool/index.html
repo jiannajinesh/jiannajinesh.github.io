@@ -1,1 +1,121 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianna's Learning Tools</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+      background: linear-gradient(180deg, #e0f0ff, #fde2f3);
+      color: #333;
+      text-align: center;
+    }
+    header {
+      padding: 30px 20px 10px;
+    }
+    h1 {
+      font-size: 42px;
+      color: #4a90e2;
+      margin: 0;
+    }
+    .subtitle {
+      font-size: 19px;
+      color: #555;
+    }
+    .home {
+      display: inline-block;
+      margin-top: 10px;
+      color: #e75480;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 25px auto;
+      padding: 0 20px;
+    }
+    .tool {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      color: #333;
+      transition: transform 0.2s;
+    }
+    .tool:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+    .icon {
+      font-size: 50px;
+    }
+    .tool h2 {
+      color: #e75480;
+      font-size: 22px;
+      margin: 10px 0 6px;
+    }
+    .tool p {
+      font-size: 16px;
+      color: #666;
+      margin: 0;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 12px;
+      background: #e0f0ff;
+      color: #4a90e2;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+    .coming {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧠 My Learning Tools</h1>
+    <p class="subtitle">Click a card to start learning!</p>
+    <a class="home" href="index.html">← Back to Home</a>
+  </header>
+
+  <div class="tools">
+
+    <!-- Tool 1 -->
+    <a class="tool" href="intlearntool/thumba.html">
+      <div class="icon">🚀</div>
+      <h2>Why Thumba?</h2>
+      <p>Why India's first rocket was launched from Thumba, and what the magnetic equator is.</p>
+      <span class="tag">Space Science</span>
+    </a>
+
+    <!-- Tool 2: copy this block for each new tool, change the link, icon and words -->
+    <a class="tool coming" href="#">
+      <div class="icon">✨</div>
+      <h2>Coming Soon</h2>
+      <p>A new tool is on the way!</p>
+      <span class="tag">Soon</span>
+    </a>
+
+  </div>
+
+  <footer>
+    Made with love by Jianna 💕
+  </footer>
+
+</body>
+</html>
