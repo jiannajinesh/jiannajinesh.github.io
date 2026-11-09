@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianna's World</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+      background: linear-gradient(180deg, #fde2f3, #e0f0ff);
+      color: #333;
+      text-align: center;
+    }
+    header {
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 48px;
+      color: #e75480;
+      margin: 0;
+    }
+    .subtitle {
+      font-size: 20px;
+      color: #555;
+    }
+    .box {
+      background: white;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: #4a90e2;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 18px;
+    }
+    li {
+      margin: 8px 0;
+    }
+    button {
+      background: #e75480;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #c73e6a;
+    }
+    #message {
+      font-size: 22px;
+      margin-top: 15px;
+      min-height: 30px;
+    }
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
 
+  <header>
+    <h1>🌸 Hi, I'm Jianna! 🌸</h1>
+    <p class="subtitle">Welcome to my little corner of the internet</p>
+  </header>
+
+  <div class="box">
+    <h2>⭐ About Me</h2>
+    <p>I love learning new things, drawing and having fun with my family.</p>
+  </div>
+
+  <div class="box">
+    <h2>💖 My Favourite Things</h2>
+    <ul>
+      <li>🎨 Drawing</li>
+      <li>📚 Story books</li>
+      <li>🦋 Butterflies</li>
+      <li>🍦 Ice cream</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>🎉 Fun Button</h2>
+    <button onclick="sayHello()">Click me!</button>
+    <p id="message"></p>
+  </div>
+
+  <footer>
+    Made with love by Jianna 💕
+  </footer>
+
+  <script>
+    const messages = [
+      "You are awesome! 🌟",
+      "Have a happy day! 😊",
+      "Keep smiling! 😄",
+      "You can do anything! 🚀",
+      "Thanks for visiting! 💖"
+    ];
+
+    function sayHello() {
+      const pick = Math.floor(Math.random() * messages.length);
+      document.getElementById("message").textContent = messages[pick];
+    }
+  </script>
+
+</body>
+</html>
