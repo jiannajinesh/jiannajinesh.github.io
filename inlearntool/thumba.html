@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Thumba? India's Rocket Station on the Magnetic Equator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b1a; --bg2:#0d1430; --card:#121a3a; --line:#26305a;
+  --txt:#e8ecff; --mut:#9aa5d1; --acc:#ffb547; --acc2:#4fd1ff; --mag:#ff5fa2; --ok:#5be39b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:Sora,sans-serif;line-height:1.2}
+a{color:var(--acc2)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:20;background:rgba(7,11,26,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 20px;scrollbar-width:none}
+nav a{white-space:nowrap;text-decoration:none;color:var(--mut);font-size:14px;padding:6px 12px;border-radius:20px;border:1px solid transparent}
+nav a:hover,nav a.on{color:var(--txt);border-color:var(--line);background:var(--card)}
+section{scroll-margin-top:56px;padding:70px 0;border-bottom:1px solid var(--line)}
+.kicker{color:var(--acc);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+h2{font-size:clamp(26px,4vw,38px);margin-bottom:14px}
+.lead{color:var(--mut);font-size:18px;max-width:760px;margin-bottom:28px}
+ul.pts{list-style:none;display:grid;gap:10px;margin:14px 0}
+ul.pts li{padding-left:28px;position:relative}
+ul.pts li::before{content:"";position:absolute;left:6px;top:9px;width:9px;height:9px;border-radius:50%;background:var(--acc)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h3{font-size:19px;margin-bottom:8px}
+.btn{font:600 15px Inter,sans-serif;background:var(--acc);color:#1a1200;border:0;border-radius:30px;padding:11px 22px;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.tag{display:inline-block;font-size:12px;padding:3px 10px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--mut);margin:2px}
+
+/* HERO */
+#hero{padding:60px 0 50px;background:radial-gradient(ellipse at 70% 20%,#1c2a66 0,transparent 60%),var(--bg)}
+#hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;margin-bottom:16px}
+#hero h1 span{color:var(--acc)}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.fact b{display:block;font-family:Sora;font-size:20px;color:var(--acc)}
+.fact small{color:var(--mut);font-size:13px}
+.stars{position:absolute;inset:0;pointer-events:none}
+
+/* compass */
+.needle-box{display:flex;flex-direction:column;align-items:center;gap:12px}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.readout{font-family:Sora;font-size:22px}
+.readout em{font-style:normal;color:var(--acc)}
+.note{font-size:14px;color:var(--mut)}
+.hl{background:rgba(255,181,71,.12);border-left:3px solid var(--acc);padding:12px 14px;border-radius:0 10px 10px 0;margin:14px 0}
+
+/* map */
+.map-box{background:#0a1230;border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative}
+.map-box svg{display:block;width:100%;height:auto}
+.toggles{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.tog{font:500 14px Inter;padding:7px 14px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer}
+.tog.on{color:var(--txt);border-color:currentColor}
+.tog.geo.on{color:#7ee787}.tog.dip.on{color:var(--mag)}.tog.band.on{color:var(--acc)}
+.place-info{min-height:150px}
+.place-info h3{color:var(--acc)}
+.mk{cursor:pointer}
+.mk circle.r{transition:r .2s}
+.mk:hover circle.r,.mk.sel circle.r{r:9}
+.place-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.place-list button{font:500 13px Inter;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:16px;padding:5px 11px;cursor:pointer}
+.place-list button.sel{border-color:var(--acc);color:var(--acc)}
+
+/* rocket */
+.flight{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+@media(max-width:820px){.flight{grid-template-columns:1fr}}
+.alt{font-family:Sora;font-size:34px;color:var(--acc)}
+.layer-now{font-weight:600;color:var(--acc2)}
+
+/* reasons */
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.reason{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:.2s}
+.reason:hover{border-color:var(--acc)}
+.reason .ic{font-size:28px}
+.reason h3{font-size:17px;margin:8px 0 4px}
+.reason p{color:var(--mut);font-size:14.5px}
+.reason .more{display:none;margin-top:8px;font-size:14.5px;color:var(--txt)}
+.reason.open .more{display:block}
+.reason.open{border-color:var(--acc)}
+
+table.cmp{width:100%;border-collapse:collapse;font-size:15px}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+table.cmp th{color:var(--mut);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.y{color:var(--ok)}.n{color:var(--mag)}
+
+/* timeline */
+.tl{position:relative;margin-left:10px;border-left:2px solid var(--line);padding-left:26px;display:grid;gap:18px}
+.tl .ev{position:relative}
+.tl .ev::before{content:"";position:absolute;left:-34px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--acc)}
+.tl .yr{font-family:Sora;color:var(--acc);font-weight:700}
+
+/* quiz */
+.q{margin-bottom:18px}
+.q p{font-weight:600;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{font:500 14px Inter;background:var(--bg2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+.opts button.right{border-color:var(--ok);color:var(--ok)}
+.opts button.wrong{border-color:var(--mag);color:var(--mag)}
+.fb{font-size:14px;color:var(--mut);margin-top:6px;min-height:20px}
+footer{padding:40px 0;color:var(--mut);font-size:13px}
+footer a{color:var(--mut)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="../learning-tools.html" style="color:#ffb547">← Learning Tools</a>
+  <a href="#hero">Start</a>
+  <a href="#two-equators">Two equators</a>
+  <a href="#electrojet">Electrojet</a>
+  <a href="#world-line">Places on the line</a>
+  <a href="#why-thumba">Why Thumba</a>
+  <a href="#launch">Launch it</a>
+  <a href="#story">Timeline</a>
+  <a href="#quiz">Quiz</a>
+</div></nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker">India's first step into space</div>
+      <h1>Why was <span>Thumba</span> chosen to launch rockets?</h1>
+      <p class="lead" style="margin-bottom:0">A small fishing village near Thiruvananthapuram, Kerala. A church by the sea. And an invisible line in Earth's magnetic field. This page explains how they came together on <b>21 November 1963</b>.</p>
+      <div class="facts">
+        <div class="fact"><b>8.54° N</b><small>Thumba latitude</small></div>
+        <div class="fact"><b>1963</b><small>First launch: Nike-Apache</small></div>
+        <div class="fact"><b>~200 km</b><small>Height reached</small></div>
+      </div>
+    </div>
+    <svg viewBox="0 0 400 360" aria-label="Rocket rising from the Thumba coast">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1440"/><stop offset="1" stop-color="#2b2f6b"/></linearGradient>
+        <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2a8"/><stop offset=".5" stop-color="#ffb547"/><stop offset="1" stop-color="#ff5f3a" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect width="400" height="360" rx="18" fill="url(#sky)"/>
+      <g id="heroStars"></g>
+      <path d="M0 300 Q100 285 200 295 T400 290 V360 H0Z" fill="#123a5c"/>
+      <path d="M0 315 Q120 305 220 312 T400 308 V360 H0Z" fill="#0d2a45"/>
+      <!-- church -->
+      <g transform="translate(60,250)">
+        <rect x="0" y="12" width="56" height="40" fill="#e9dcc4"/>
+        <polygon points="-4,14 28,-6 60,14" fill="#c7b08a"/>
+        <rect x="22" y="-26" width="12" height="22" fill="#e9dcc4"/>
+        <rect x="27" y="-36" width="2" height="10" fill="#e9dcc4"/><rect x="23" y="-32" width="10" height="2" fill="#e9dcc4"/>
+        <rect x="22" y="30" width="12" height="22" fill="#7a5b3a"/>
+      </g>
+      <!-- palms -->
+      <g stroke="#0a2a2a" stroke-width="3" fill="none"><path d="M330 300 Q325 260 335 230"/><path d="M355 302 Q352 270 360 248"/></g>
+      <g fill="#0f3d32"><ellipse cx="335" cy="228" rx="22" ry="6" transform="rotate(-20 335 228)"/><ellipse cx="335" cy="228" rx="22" ry="6" transform="rotate(25 335 228)"/><ellipse cx="360" cy="246" rx="18" ry="5" transform="rotate(-15 360 246)"/><ellipse cx="360" cy="246" rx="18" ry="5" transform="rotate(30 360 246)"/></g>
+      <!-- pad -->
+      <rect x="208" y="270" width="34" height="8" fill="#555c80"/>
+      <g id="heroRocket" transform="translate(225,270)">
+        <path d="M-6 0 L-6 -56 Q0 -74 6 -56 L6 0Z" fill="#f1f3ff"/>
+        <path d="M-6 -12 L-13 2 L-6 0Z M6 -12 L13 2 L6 0Z" fill="#ff5fa2"/>
+        <rect x="-6" y="-38" width="12" height="4" fill="#ffb547"/>
+        <path id="heroFlame" d="M-5 0 Q0 40 5 0Z" fill="url(#flame)" opacity="0"/>
+      </g>
+      <text x="200" y="345" text-anchor="middle" fill="#9aa5d1" font-size="12" font-family="Inter">Thumba coast · Arabian Sea</text>
+    </svg>
+  </div>
+  <div class="wrap" style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn" id="heroLaunch">🚀 Launch the rocket</button>
+    <a class="btn ghost" href="#two-equators" style="text-decoration:none">Start learning ↓</a>
+  </div>
+</section>
+
+<!-- TWO EQUATORS -->
+<section id="two-equators">
+  <div class="wrap">
+    <div class="kicker">Step 1</div>
+    <h2>Earth has two "equators"</h2>
+    <p class="lead">Most people know only one. Thumba was picked because of the <b>second</b> one.</p>
+    <div class="grid2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <h3 style="color:#7ee787">🌍 Geographic equator (0° latitude)</h3>
+          <ul class="pts">
+            <li>The middle line of Earth, halfway between the North and South Poles.</li>
+            <li>Fixed. It never moves.</li>
+            <li>Passes through Ecuador, Brazil, Kenya, Indonesia and others. <b>Not</b> through India.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--mag)">🧲 Magnetic equator (dip equator)</h3>
+          <ul class="pts">
+            <li>Earth behaves like a giant bar magnet.</li>
+            <li>A free magnetic needle tilts ("dips") down toward the ground. This tilt is called the <b>dip angle</b>.</li>
+            <li>On the magnetic equator, the dip is <b>zero</b>. The needle lies flat, because the magnetic field runs parallel to the ground.</li>
+            <li>It is a wavy line, not straight. It also drifts slowly over the years.</li>
+            <li>In India it passes over the <b>southern tip</b>, near Thiruvananthapuram.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card needle-box">
+        <h3>Try it: the dip needle</h3>
+        <p class="note" style="text-align:center">Move the slider to travel north or south of the magnetic equator. Watch the needle tilt.</p>
+        <svg viewBox="0 0 320 300" width="100%" style="max-width:360px">
+          <defs>
+            <radialGradient id="earthG" cx=".4" cy=".35"><stop offset="0" stop-color="#3b7bd6"/><stop offset="1" stop-color="#132f63"/></radialGradient>
+          </defs>
+          <!-- field lines -->
+          <g id="fieldLines" fill="none" stroke="#ff5fa2" stroke-opacity=".35" stroke-width="1.3"></g>
+          <circle cx="160" cy="150" r="70" fill="url(#earthG)"/>
+          <line x1="80" y1="150" x2="240" y2="150" stroke="#ff5fa2" stroke-dasharray="5 4" stroke-width="2"/>
+          <text x="246" y="146" fill="#ff5fa2" font-size="10" font-family="Inter">magnetic</text>
+          <text x="246" y="158" fill="#ff5fa2" font-size="10" font-family="Inter">equator</text>
+          <text x="160" y="72" text-anchor="middle" fill="#9aa5d1" font-size="11" font-family="Inter">N</text>
+          <text x="160" y="236" text-anchor="middle" fill="#9aa5d1" font-size="11" font-family="Inter">S</text>
+          <circle id="obsDot" cx="230" cy="150" r="6" fill="#ffb547" stroke="#fff" stroke-width="1.5"/>
+          <!-- needle panel -->
+          <g transform="translate(160,268)">
+            <rect x="-70" y="-22" width="140" height="44" rx="10" fill="#0d1430" stroke="#26305a"/>
+            <line x1="-60" y1="0" x2="60" y2="0" stroke="#26305a"/>
+            <g id="needle"><polygon points="-50,0 0,-5 50,0 0,5" fill="#ff5fa2"/><polygon points="-50,0 0,-5 0,5" fill="#e8ecff"/></g>
+            <circle r="3" fill="#ffb547"/>
+          </g>
+        </svg>
+        <input type="range" id="latSlider" min="-60" max="60" value="0" step="1" aria-label="Magnetic latitude">
+        <div class="readout">Magnetic latitude <em id="latV">0°</em> · Dip <em id="dipV">0°</em></div>
+        <div class="note" id="dipMsg">You are on the magnetic equator. The needle is flat.</div>
+      </div>
+    </div>
+    <div class="hl">💡 <b>Common mix-up:</b> Big satellite launchers like to be near the <i>geographic</i> equator, because Earth's spin gives them a free push. Thumba was <b>not</b> chosen for that. It was chosen to study the air and electric currents high above the <i>magnetic</i> equator. India's satellite launches happen from Sriharikota, a different site.</div>
+  </div>
+</section>
+
+<!-- ELECTROJET -->
+<section id="electrojet">
+  <div class="wrap">
+    <div class="kicker">Step 2</div>
+    <h2>The hidden "river of electricity" in the sky</h2>
+    <p class="lead">Above the magnetic equator there is something special to study: the <b>Equatorial Electrojet</b>.</p>
+    <div class="grid2">
+      <div>
+        <ul class="pts">
+          <li>About 100–110 km above the ground sits the <b>ionosphere</b>, a layer of charged (electrically active) air made by sunlight.</li>
+          <li>During the day, winds and sunlight drive an electric current there.</li>
+          <li>Right over the magnetic equator, where the field lines are flat, this current becomes very strong. It flows from <b>west to east</b>.</li>
+          <li>It is a narrow ribbon, only about <b>±3°</b> of latitude wide on either side of the magnetic equator.</li>
+          <li>This affects radio signals, GPS accuracy and satellite communication. Scientists badly wanted to measure it.</li>
+          <li>Balloons cannot go that high. Satellites fly much higher. So <b>sounding rockets</b> (short research rockets that go up and fall back) are the best tool.</li>
+        </ul>
+        <div class="hl">🎯 To fly a rocket <i>through</i> the electrojet, you must launch from <b>inside</b> that narrow ±3° band. In India, only the southern tip qualifies.</div>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 360 320" width="100%" aria-label="Electrojet current flowing along the magnetic equator">
+          <defs>
+            <radialGradient id="earth2" cx=".35" cy=".3"><stop offset="0" stop-color="#3b7bd6"/><stop offset="1" stop-color="#0e2250"/></radialGradient>
+            <clipPath id="globeClip"><circle cx="180" cy="160" r="120"/></clipPath>
+          </defs>
+          <circle cx="180" cy="160" r="134" fill="none" stroke="#4fd1ff" stroke-opacity=".25" stroke-width="10"/>
+          <circle cx="180" cy="160" r="120" fill="url(#earth2)"/>
+          <g clip-path="url(#globeClip)">
+            <!-- latitude lines -->
+            <ellipse cx="180" cy="160" rx="120" ry="22" fill="none" stroke="#7ee787" stroke-opacity=".5" stroke-dasharray="4 4"/>
+            <!-- band -->
+            <ellipse cx="180" cy="140" rx="120" ry="30" fill="none" stroke="#ffb547" stroke-opacity=".25" stroke-width="22" transform="rotate(-8 180 140)"/>
+            <ellipse id="dipEll" cx="180" cy="140" rx="120" ry="30" fill="none" stroke="#ff5fa2" stroke-width="2.5" transform="rotate(-8 180 140)"/>
+            <g id="jetDots" transform="rotate(-8 180 140)"></g>
+          </g>
+          <text x="180" y="300" text-anchor="middle" fill="#9aa5d1" font-size="12" font-family="Inter">pink = magnetic equator · orange = electrojet band · green = geographic equator</text>
+          <text x="20" y="30" fill="#4fd1ff" font-size="12" font-family="Inter">ionosphere (~100+ km)</text>
+        </svg>
+        <p class="note" style="text-align:center">Moving dots show the daytime current flowing eastward along the magnetic equator.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLD LINE -->
+<section id="world-line">
+  <div class="wrap">
+    <div class="kicker">Step 3</div>
+    <h2>Which other places lie on this line?</h2>
+    <p class="lead">The magnetic equator circles the whole Earth. Many countries built observatories and rocket ranges along it. Click a dot to learn about each place.</p>
+    <div class="toggles">
+      <button class="tog geo on" data-l="geo">Geographic equator</button>
+      <button class="tog dip on" data-l="dip">Magnetic equator</button>
+      <button class="tog band on" data-l="band">Electrojet band (±3°)</button>
+    </div>
+    <div class="map-box"><svg id="worldMap" viewBox="0 0 1000 375"></svg></div>
+    <p class="note" style="margin-top:8px">Simplified map. The magnetic equator line is approximate and shifts slowly each year.</p>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card place-info" id="placeInfo">
+        <h3>Pick a place</h3>
+        <p class="note">Click any yellow dot on the map, or a name below.</p>
+      </div>
+      <div class="card">
+        <h3>Places along the magnetic equator</h3>
+        <div class="place-list" id="placeList"></div>
+        <ul class="pts" style="margin-top:14px">
+          <li>The line runs far <b>north</b> of the geographic equator over Africa and India (about 8–12° N).</li>
+          <li>It dips far <b>south</b> over Peru (about 12° S).</li>
+          <li>It crosses the geographic equator in the middle of the Pacific Ocean.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THUMBA -->
+<section id="why-thumba">
+  <div class="wrap">
+    <div class="kicker">Step 4</div>
+    <h2>So why Thumba, and not anywhere else?</h2>
+    <p class="lead">The magnetic equator crosses the tip of India over a stretch of the Kerala and Tamil Nadu coast. Scientists checked many sites. Here is why Thumba won. Tap each card.</p>
+    <div class="reasons" id="reasons">
+      <div class="reason"><div class="ic">🧲</div><h3>Close to the magnetic equator</h3><p>The main rule for picking the site.</p><div class="more">The rocket had to fly through the electrojet band. Thumba (8.54° N) sat very close to the magnetic equator in the 1960s, well inside the ±3° band.</div></div>
+      <div class="reason"><div class="ic">🌊</div><h3>Sea on the west side</h3><p>Safe place for rockets to fall.</p><div class="more">Spent rocket stages drop into the Arabian Sea, away from homes. Nobody on land is in danger.</div></div>
+      <div class="reason"><div class="ic">✈️</div><h3>Airport next door</h3><p>Easy to bring in rockets and equipment.</p><div class="more">Thiruvananthapuram airport is right beside Thumba. Rockets and instruments from the USA, France and the USSR could be flown in quickly.</div></div>
+      <div class="reason"><div class="ic">🏙️</div><h3>Near a capital city</h3><p>Roads, power, workshops and people.</p><div class="more">Thiruvananthapuram, the state capital, gave labs, housing, offices and skilled workers. The Kerala government, under Chief Minister Pattom Thanu Pillai, also supported a Trivandrum site.</div></div>
+      <div class="reason"><div class="ic">⛪</div><h3>Land was available</h3><p>A church and a village said "yes".</p><div class="more">The best spot held St. Mary Magdalene Church and a fishing village. The Bishop, Rev. Peter Bernard Pereira, and the people agreed to move. The church became the first office and lab. Today it is the ISRO Space Museum.</div></div>
+      <div class="reason"><div class="ic">🌦️</div><h3>Less rain</h3><p>More good launch days.</p><div class="more">Thumba gets less rain than the Kollam coast to the north. Fewer rainy days means more days fit for launches.</div></div>
+      <div class="reason"><div class="ic">🛡️</div><h3>Far from borders</h3><p>Safe and quiet location.</p><div class="more">At India's southern tip, Thumba is one of the places farthest from India's northern land borders.</div></div>
+      <div class="reason"><div class="ic">🌐</div><h3>Fills a gap on the globe</h3><p>Why India needed its own station.</p><div class="more">The electrojet is not the same everywhere. It is stronger over Peru than over India. To understand it, scientists needed rockets in the Asian sector too. That made Thumba useful to the whole world, and it was later dedicated to the United Nations.</div></div>
+    </div>
+
+    <div class="card" style="margin-top:26px">
+      <h3>The final shortlist</h3>
+      <p class="note" style="margin-bottom:10px">Officials identified several coastal sites. Three made the shortlist.</p>
+      <div class="grid2">
+        <svg viewBox="0 0 400 340" width="100%" id="inset" aria-label="Map of southern India coast with shortlisted sites"></svg>
+        <table class="cmp">
+          <tr><th>Point</th><th>Vellanathuruthu (near Karunagappally)</th><th>Thumba</th></tr>
+          <tr><td>On the magnetic equator (1960s)</td><td class="y">✔ Right on it</td><td class="y">✔ Very close</td></tr>
+          <tr><td>Getting land</td><td class="n">✘ Crowded coast, hard</td><td class="y">✔ Easier</td></tr>
+          <tr><td>Rainfall</td><td class="n">More</td><td class="y">Less</td></tr>
+          <tr><td>Airstrip nearby</td><td class="n">✘</td><td class="y">✔ Trivandrum</td></tr>
+          <tr><td>Government support</td><td>–</td><td class="y">✔ Strong</td></tr>
+        </table>
+      </div>
+      <div class="hl">✅ <b>Bottom line:</b> Thumba was not exactly on the line. It was the best <b>compromise</b>: close enough for the science, and the best for land, safety, transport and weather. Ezhudesam, near Kanyakumari, was the third shortlisted site.</div>
+    </div>
+  </div>
+</section>
+
+<!-- LAUNCH -->
+<section id="launch">
+  <div class="wrap">
+    <div class="kicker">Step 5</div>
+    <h2>Fly the first rocket: Nike-Apache, 1963</h2>
+    <p class="lead">An American Nike-Apache rocket with a French payload. It released a glowing <b>sodium vapour cloud</b> high in the sky so scientists could watch how the upper winds moved.</p>
+    <div class="flight">
+      <div class="card" style="padding:10px">
+        <svg viewBox="0 0 420 520" width="100%" id="flightSvg" aria-label="Rocket altitude through atmospheric layers"></svg>
+      </div>
+      <div>
+        <div class="card">
+          <div class="note">Altitude</div>
+          <div class="alt"><span id="altV">0</span> km</div>
+          <div class="note" style="margin-top:6px">Layer: <span class="layer-now" id="layerV">Ground · Thumba</span></div>
+          <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+            <button class="btn" id="goBtn">🚀 Launch</button>
+            <button class="btn ghost" id="resetBtn">Reset</button>
+          </div>
+        </div>
+        <ul class="pts" style="margin-top:16px">
+          <li><b>0–12 km</b> Troposphere: weather and clouds.</li>
+          <li><b>12–50 km</b> Stratosphere: ozone layer. Balloons stop around here.</li>
+          <li><b>50–85 km</b> Mesosphere: meteors burn up.</li>
+          <li><b>~100–110 km</b> Electrojet: the target of Thumba's research.</li>
+          <li><b>~200 km</b> Top of the Nike-Apache flight, then it falls into the sea.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="story">
+  <div class="wrap">
+    <div class="kicker">The story</div>
+    <h2>From a fishing village to a space centre</h2>
+    <div class="grid2">
+      <div class="tl">
+        <div class="ev"><div class="yr">1962</div>INCOSPAR (Indian National Committee for Space Research) is formed, led by Dr. Vikram Sarabhai. Its first job: set up TERLS, the Thumba Equatorial Rocket Launching Station.</div>
+        <div class="ev"><div class="yr">21 Nov 1963</div>First launch: Nike-Apache, from beside St. Mary Magdalene Church. The Kerala Assembly adjourned so members could watch.</div>
+        <div class="ev"><div class="yr">20 Nov 1967</div>First Indian-made rocket, RH-75, flies from Thumba.</div>
+        <div class="ev"><div class="yr">2 Feb 1968</div>Prime Minister Indira Gandhi dedicates TERLS to the United Nations. Scientists from many countries use it.</div>
+        <div class="ev"><div class="yr">1970–1993</div>Soviet M-100 weather rockets are launched from Thumba every week.</div>
+        <div class="ev"><div class="yr">1971</div>After Sarabhai's death, the centre is renamed Vikram Sarabhai Space Centre (VSSC).</div>
+        <div class="ev"><div class="yr">Today</div>Thumba still launches RH-series sounding rockets. Nearly 2,200 have flown so far. The old church is the ISRO Space Museum.</div>
+      </div>
+      <div class="card">
+        <h3>People behind it</h3>
+        <ul class="pts">
+          <li><b>Dr. Vikram Sarabhai:</b> Father of the Indian space programme. Picked the site.</li>
+          <li><b>Dr. Homi Bhabha:</b> Supported the project at the national level.</li>
+          <li><b>H.G.S. Murthy:</b> First Director of TERLS.</li>
+          <li><b>Dr. A.P.J. Abdul Kalam:</b> Young engineer in the early Thumba team.</li>
+          <li><b>Bishop Peter Bernard Pereira and the people of Thumba:</b> Gave their church and land for science.</li>
+        </ul>
+        <div class="hl">🛺 Famous photo: early rocket parts were carried on a bicycle, and the church served as the workshop.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="wrap">
+    <div class="kicker">Check yourself</div>
+    <h2>Quick quiz</h2>
+    <div class="card" id="quizBox"></div>
+    <p class="readout" style="margin-top:14px">Score: <em id="score">0</em> / <span id="qTotal">0</span></p>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  Sources: ISRO / VSSC history; Wikipedia, "Thumba Equatorial Rocket Launching Station" and "Vikram Sarabhai Space Centre"; The Hindu, 60th anniversary of the first Thumba launch (2023); Chandra, Sinha &amp; Rastogi, "Equatorial electrojet studies from rocket and ground measurements", Earth Planets Space. Map and magnetic equator line are simplified for teaching.
+</div></footer>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+
+/* ---------- hero stars + rocket ---------- */
+(function(){
+  const g=document.getElementById('heroStars');
+  for(let i=0;i<60;i++)el('circle',{cx:Math.random()*400,cy:Math.random()*260,r:Math.random()*1.3+.2,fill:'#fff',opacity:Math.random()*.8+.2},g);
+  const btn=document.getElementById('heroLaunch'),r=document.getElementById('heroRocket'),f=document.getElementById('heroFlame');
+  btn.onclick=()=>{
+    btn.disabled=true;let t=0;f.setAttribute('opacity',1);
+    function step(){t+=1;const y=270-Math.pow(t,1.7)*0.12;const sh=t<30?(Math.random()-.5)*2:0;
+      r.setAttribute('transform',`translate(${225+sh},${y})`);
+      f.setAttribute('d',`M-5 0 Q0 ${30+Math.random()*20} 5 0Z`);
+      if(y>-120)requestAnimationFrame(step);else{setTimeout(()=>{r.setAttribute('transform','translate(225,270)');f.setAttribute('opacity',0);btn.disabled=false;},700);}}
+    step();
+  };
+})();
+
+/* ---------- dip needle ---------- */
+(function(){
+  const fl=document.getElementById('fieldLines');
+  // dipole field lines r = L cos^2(lat)
+  [1.35,1.8,2.4].forEach(L=>{
+    ['right','left'].forEach(side=>{
+      let d='';for(let a=-80;a<=80;a+=4){const rad=a*Math.PI/180;const r=70*L*Math.cos(rad)**2;if(r<70)continue;
+        const x=160+(side==='right'?1:-1)*r*Math.cos(rad),y=150-r*Math.sin(rad);d+=(d?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
+      el('path',{d},fl);
+    });
+  });
+  const s=document.getElementById('latSlider'),needle=document.getElementById('needle'),dot=document.getElementById('obsDot');
+  function upd(){const lat=+s.value,rad=lat*Math.PI/180;const dip=Math.atan(2*Math.tan(rad))*180/Math.PI;
+    needle.setAttribute('transform',`rotate(${dip})`);
+    dot.setAttribute('cx',160+70*Math.cos(rad));dot.setAttribute('cy',150-70*Math.sin(rad));
+    document.getElementById('latV').textContent=Math.abs(lat)+'°'+(lat>0?' N':lat<0?' S':'');
+    document.getElementById('dipV').textContent=Math.abs(dip).toFixed(0)+'°';
+    const m=document.getElementById('dipMsg');
+    if(Math.abs(lat)===0)m.textContent='You are on the magnetic equator. The needle is flat.';
+    else if(Math.abs(lat)<=3)m.textContent='Inside the electrojet band (±3°). Needle is almost flat. Thumba-like spot!';
+    else if(lat>0)m.textContent='North of the magnetic equator: the north end of the needle dips down.';
+    else m.textContent='South of the magnetic equator: the south end of the needle dips down.';}
+  s.oninput=upd;upd();
+})();
+
+/* ---------- electrojet dots ---------- */
+(function(){
+  const g=document.getElementById('jetDots');const dots=[];
+  for(let i=0;i<18;i++){dots.push({a:i/18*Math.PI*2,e:el('circle',{r:3.2,fill:'#ffe08a'},g)});}
+  function anim(){dots.forEach(d=>{d.a+=0.012;const x=180+120*Math.cos(d.a),y=140+30*Math.sin(d.a);
+    d.e.setAttribute('cx',x);d.e.setAttribute('cy',y);d.e.setAttribute('opacity',Math.sin(d.a)>0?1:.15);});requestAnimationFrame(anim);}
+  anim();
+})();
+
+/* ---------- world map ---------- */
+const W=1000,LATTOP=75,LATBOT=-60;
+const px=lon=>(lon+180)/360*W, py=lat=>(LATTOP-lat)*W/360;
+const land={
+ na:[[-168,66],[-140,70],[-95,72],[-80,68],[-62,58],[-55,50],[-66,44],[-76,35],[-81,25],[-90,29],[-97,26],[-97,20],[-88,16],[-83,9],[-78,8],[-85,12],[-92,15],[-105,20],[-112,30],[-118,34],[-124,40],[-124,48],[-135,58],[-150,60],[-165,62]],
+ gl:[[-50,60],[-40,65],[-22,70],[-20,75],[-60,75],[-55,68]],
+ sa:[[-78,8],[-72,12],[-62,10],[-50,2],[-35,-5],[-38,-13],[-40,-22],[-48,-26],[-53,-34],[-58,-38],[-65,-42],[-68,-52],[-72,-50],[-74,-40],[-71,-30],[-70,-18],[-76,-14],[-81,-5],[-80,0]],
+ eu:[[-10,36],[-9,43],[-2,44],[-5,48],[0,50],[5,53],[8,57],[5,62],[15,69],[28,71],[40,67],[45,55],[40,45],[30,46],[28,41],[22,37],[15,38],[12,44],[5,43],[-5,36]],
+ uk:[[-5,50],[1,51],[-2,57],[-6,58],[-5,54]],
+ af:[[-17,15],[-17,21],[-10,30],[-6,36],[10,37],[20,32],[32,31],[35,28],[43,12],[51,12],[42,-1],[40,-10],[35,-20],[33,-26],[27,-34],[19,-35],[15,-27],[12,-17],[13,-6],[9,-1],[9,4],[4,6],[-8,4],[-13,8]],
+ ar:[[35,28],[44,30],[50,30],[56,26],[59,22],[52,16],[44,12],[42,16],[38,22]],
+ as:[[28,41],[40,45],[45,55],[40,67],[60,70],[80,73],[110,76],[140,72],[170,70],[180,66],[170,60],[160,58],[142,50],[140,40],[130,42],[127,35],[122,30],[121,25],[110,20],[108,12],[105,9],[100,13],[100,8],[103,1],[100,4],[97,16],[92,22],[88,21],[80,15],[77.5,8],[73,17],[72,22],[67,24],[57,26],[50,30],[44,30],[36,36]],
+ sl:[[79.8,9.8],[81.8,7.5],[81,6],[79.9,6.5]],
+ jp:[[130,31],[136,34],[141,38],[142,45],[140,41],[133,34]],
+ su:[[95,5],[106,-6],[104,-5],[98,1]],
+ bo:[[109,2],[117,7],[119,1],[116,-4],[110,-3]],
+ jv:[[105,-6],[114,-8],[106,-7.5]],
+ ng:[[131,-1],[141,-3],[150,-10],[142,-9],[135,-4]],
+ ph:[[120,18],[122,13],[126,7],[122,8],[121,14]],
+ au:[[114,-22],[122,-18],[130,-12],[137,-12],[142,-11],[146,-19],[153,-26],[150,-37],[141,-38],[135,-35],[129,-32],[115,-34],[113,-26]],
+ md:[[44,-12],[50,-15],[48,-25],[44,-23]]
+};
+// approximate present-day dip equator (lon, lat)
+const dip=[[-180,1],[-170,-0.5],[-160,-1],[-140,-3],[-120,-6],[-100,-9],[-85,-11],[-76,-12],[-65,-10],[-50,-5],[-44,-3],[-30,2],[-15,7],[0,10],[10,11],[20,11],[30,10.5],[40,9.5],[55,8.5],[70,8.8],[77,9],[90,9.2],[100,9.5],[110,9],[122,8],[135,7],[150,6],[167,5],[180,2]];
+const places=[
+ {n:"Thumba, India",lon:76.86,lat:8.54,t:"India's first rocket station (TERLS), 1963. Now part of VSSC. Still launches RH-series sounding rockets to study the electrojet and upper air.",tag:"Rocket station"},
+ {n:"Tirunelveli & Kodaikanal, India",lon:77.7,lat:9.5,t:"Magnetic observatories in Tamil Nadu used to measure the electrojet from the ground. Kodaikanal is one of the long-running equatorial observatories.",tag:"Observatory"},
+ {n:"Northern Sri Lanka",lon:80.2,lat:9.4,t:"The magnetic equator crosses close to the north of Sri Lanka, just east of India's southern tip.",tag:"On the line"},
+ {n:"Addis Ababa, Ethiopia",lon:38.7,lat:9.0,t:"A permanent equatorial magnetic observatory near the dip equator in East Africa.",tag:"Observatory"},
+ {n:"Ibadan, Nigeria",lon:3.9,lat:7.4,t:"Electrojet observatory set up in West Africa. Over Africa the magnetic equator runs about 10° north of the geographic equator.",tag:"Observatory"},
+ {n:"São Luís & Alcântara, Brazil",lon:-44.3,lat:-2.4,t:"Brazil's Alcântara launch centre sits near the dip equator. It has hosted rocket campaigns studying the equatorial upper atmosphere.",tag:"Rocket station"},
+ {n:"Huancayo, Peru",lon:-75.3,lat:-12.0,t:"The electrojet was first noticed after a magnetic observatory was set up here. A historic site for this science.",tag:"Discovery site"},
+ {n:"Jicamarca & Punta Lobos, Peru",lon:-76.9,lat:-11.95,t:"Jicamarca Radio Observatory near Lima watches the ionosphere with a giant radar. Rockets were launched from Punta Lobos (Chilca) nearby. The electrojet is stronger here than over India.",tag:"Radar + rockets"},
+ {n:"Chumphon, Thailand",lon:99.2,lat:10.5,t:"Ground station in Southeast Asia near the magnetic equator, used to watch equatorial space weather.",tag:"Observatory"},
+ {n:"Koror, Palau",lon:134.5,lat:7.3,t:"Pacific island observatory set up to study the electrojet.",tag:"Observatory"},
+ {n:"Kwajalein, Marshall Islands",lon:167.7,lat:9.0,t:"US rocket range in the Pacific. Used for rocket campaigns into the equatorial ionosphere.",tag:"Rocket range"},
+ {n:"Jarvis Island, Pacific",lon:-160,lat:-0.4,t:"Tiny Pacific island with an electrojet observatory. Near here the magnetic equator crosses the geographic equator.",tag:"Observatory"}
+];
+(function(){
+  const svg=document.getElementById('worldMap');
+  el('rect',{width:W,height:375,fill:'#0a1230'},svg);
+  // grid
+  const grid=el('g',{stroke:'#1a2552','stroke-width':.6},svg);
+  for(let lo=-150;lo<=150;lo+=30)el('line',{x1:px(lo),x2:px(lo),y1:0,y2:375},grid);
+  for(let la=-60;la<=60;la+=30)el('line',{x1:0,x2:W,y1:py(la),y2:py(la)},grid);
+  const lg=el('g',{fill:'#1e3a5f',stroke:'#2e5585','stroke-width':.8},svg);
+  Object.values(land).forEach(p=>el('path',{d:'M'+p.map(([a,b])=>px(a).toFixed(1)+' '+py(b).toFixed(1)).join('L')+'Z'},lg));
+  // band
+  const top=dip.map(([a,b])=>[a,b+3]),bot=dip.map(([a,b])=>[a,b-3]).reverse();
+  const band=el('path',{d:'M'+top.concat(bot).map(([a,b])=>px(a)+' '+py(b)).join('L')+'Z',fill:'#ffb547','fill-opacity':.18,id:'L-band'},svg);
+  const geo=el('line',{x1:0,x2:W,y1:py(0),y2:py(0),stroke:'#7ee787','stroke-width':1.6,'stroke-dasharray':'6 5',id:'L-geo'},svg);
+  // smooth dip line
+  const pts=dip.map(([a,b])=>[px(a),py(b)]);let d=`M${pts[0][0]} ${pts[0][1]}`;
+  for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i];const mx=(x0+x1)/2;d+=` Q${x0} ${y0} ${mx} ${(y0+y1)/2}`;}
+  d+=` L${pts.at(-1)[0]} ${pts.at(-1)[1]}`;
+  const dl=el('path',{d,fill:'none',stroke:'#ff5fa2','stroke-width':2.4,id:'L-dip'},svg);
+  const lab=el('g',{'font-family':'Inter','font-size':11},svg);
+  el('text',{x:8,y:py(0)-5,fill:'#7ee787'},lab).textContent='Geographic equator 0°';
+  el('text',{x:px(-125),y:py(-6)+18,fill:'#ff5fa2'},lab).textContent='Magnetic equator';
+  // markers
+  const mg=el('g',{},svg);const list=document.getElementById('placeList');
+  places.forEach((p,i)=>{
+    const g=el('g',{class:'mk',transform:`translate(${px(p.lon)},${py(p.lat)})`},mg);
+    if(i===0){const pulse=el('circle',{r:8,fill:'none',stroke:'#ffb547','stroke-width':2},g);
+      const a=el('animate',{attributeName:'r',from:6,to:18,dur:'1.6s',repeatCount:'indefinite'},pulse);
+      el('animate',{attributeName:'opacity',from:1,to:0,dur:'1.6s',repeatCount:'indefinite'},pulse);}
+    el('circle',{class:'r',r:i===0?7:5.5,fill:i===0?'#ffb547':'#ffe08a',stroke:'#0a1230','stroke-width':1.5},g);
+    el('title',{},g).textContent=p.n;
+    g.addEventListener('click',()=>sel(i));
+    const b=document.createElement('button');b.textContent=p.n.split(',')[0];b.onclick=()=>sel(i);list.appendChild(b);
+  });
+  const th=el('text',{x:px(76.86)+10,y:py(8.54)+18,fill:'#ffb547','font-family':'Sora','font-size':13,'font-weight':700},svg);th.textContent='THUMBA';
+  function sel(i){
+    [...mg.children].forEach((g,j)=>g.classList.toggle('sel',i===j));
+    [...list.children].forEach((b,j)=>b.classList.toggle('sel',i===j));
+    const p=places[i];
+    document.getElementById('placeInfo').innerHTML=`<span class="tag">${p.tag}</span><h3 style="margin-top:8px">${p.n}</h3><p>${p.t}</p><p class="note" style="margin-top:8px">Approx. ${Math.abs(p.lat).toFixed(1)}° ${p.lat>=0?'N':'S'}, ${Math.abs(p.lon).toFixed(1)}° ${p.lon>=0?'E':'W'}</p>`;
+  }
+  sel(0);
+  document.querySelectorAll('.tog').forEach(t=>t.onclick=()=>{t.classList.toggle('on');document.getElementById('L-'+t.dataset.l).style.display=t.classList.contains('on')?'':'none';});
+})();
+
+/* ---------- Kerala inset ---------- */
+(function(){
+  const svg=document.getElementById('inset');const L0=74.6,L1=79.6,T=11.2,B=7.7;
+  const X=lo=>(lo-L0)/(L1-L0)*400, Y=la=>(T-la)/(T-B)*340;
+  el('rect',{width:400,height:340,fill:'#0a1230',rx:12},svg);
+  const coast=[[75.6,11.2],[75.78,11.25],[76.0,10.6],[76.25,9.95],[76.33,9.5],[76.5,9.1],[76.6,8.9],[76.95,8.5],[77.3,8.2],[77.54,8.08],[77.8,8.3],[78.13,8.8],[78.4,9.2],[79.3,9.3],[79.0,9.6],[79.6,10.2],[79.6,11.2]];
+  el('path',{d:'M'+coast.map(([a,b])=>X(a)+' '+Y(b)).join('L')+'L400 0 L'+X(75.6)+' 0Z',fill:'#1e3a5f',stroke:'#2e5585'},svg);
+  el('text',{x:30,y:250,fill:'#4fd1ff','font-size':13,'font-family':'Inter','font-style':'italic'},svg).textContent='Arabian Sea';
+  el('text',{x:330,y:330,fill:'#4fd1ff','font-size':11,'font-family':'Inter','font-style':'italic','text-anchor':'middle'},svg).textContent='Gulf of Mannar';
+  el('text',{x:250,y:60,fill:'#9aa5d1','font-size':12,'font-family':'Inter'},svg).textContent='KERALA · TAMIL NADU';
+  // band and dip line circa 1960s ~ through Vellanathuruthu (~9.05N)
+  const y0=Y(9.05);
+  el('rect',{x:0,y:Y(9.05+.6),width:400,height:Y(9.05-.6)-Y(9.05+.6),fill:'#ffb547','fill-opacity':.12},svg);
+  el('line',{x1:0,x2:400,y1:y0,y2:y0,stroke:'#ff5fa2','stroke-width':2,'stroke-dasharray':'6 4'},svg);
+  el('text',{x:395,y:y0+16,fill:'#ff5fa2','font-size':11,'font-family':'Inter','text-anchor':'end'},svg).textContent='magnetic equator (1960s, approx.)';
+  // rocket fall arrow
+  el('path',{d:`M${X(76.86)} ${Y(8.54)} Q${X(76.2)} ${Y(8.8)} ${X(75.6)} ${Y(8.6)}`,fill:'none',stroke:'#4fd1ff','stroke-dasharray':'3 3','stroke-width':1.5},svg);
+  el('text',{x:X(75.4),y:Y(8.6)+16,fill:'#4fd1ff','font-size':10,'font-family':'Inter'},svg).textContent='stages fall in sea';
+  const sites=[["Vellanathuruthu",76.52,9.05,'#ffe08a'],["Thumba",76.86,8.54,'#ffb547'],["Ezhudesam",77.25,8.2,'#ffe08a'],["Trivandrum airport",76.92,8.48,null]];
+  sites.forEach(([n,lo,la,c])=>{
+    if(!c){el('text',{x:X(lo)+8,y:Y(la)+24,fill:'#9aa5d1','font-size':10,'font-family':'Inter'},svg).textContent='✈ airport';return;}
+    el('circle',{cx:X(lo),cy:Y(la),r:n==='Thumba'?7:5,fill:c,stroke:'#0a1230','stroke-width':1.5},svg);
+    el('text',{x:X(lo)+10,y:n==='Ezhudesam'?Y(la)+5:Y(la)-6,fill:c,'font-size':n==='Thumba'?14:12,'font-family':'Sora','font-weight':700},svg).textContent=n;
+  });
+})();
+
+/* ---------- flight sim ---------- */
+(function(){
+  const svg=document.getElementById('flightSvg');const H=520,top=20,bot=490,MAX=230;
+  const Y=km=>bot-(km/MAX)*(bot-top);
+  const layers=[[0,12,'#1b3b7a','Troposphere'],[12,50,'#16306a','Stratosphere'],[50,85,'#112659','Mesosphere'],[85,MAX,'#0b1a45','Thermosphere / Ionosphere']];
+  layers.forEach(([a,b,c,n])=>{el('rect',{x:0,y:Y(b),width:420,height:Y(a)-Y(b),fill:c},svg);
+    el('text',{x:410,y:Y(b)+16,fill:'#9aa5d1','font-size':11,'font-family':'Inter','text-anchor':'end'},svg).textContent=n;});
+  // electrojet band
+  el('rect',{x:0,y:Y(110),width:420,height:Y(100)-Y(110),fill:'#ffb547','fill-opacity':.3},svg);
+  const ej=el('text',{x:10,y:Y(110)-5,fill:'#ffb547','font-size':12,'font-family':'Inter','font-weight':600},svg);ej.textContent='⚡ Equatorial electrojet ~100–110 km';
+  const jet=el('g',{},svg);const jd=[];for(let i=0;i<12;i++)jd.push(el('circle',{cy:Y(105),r:2.5,fill:'#ffe08a',cx:i*36},jet));
+  // ticks
+  for(let k=0;k<=200;k+=50){el('line',{x1:0,x2:10,y1:Y(k),y2:Y(k),stroke:'#9aa5d1'},svg);el('text',{x:14,y:Y(k)+4,fill:'#9aa5d1','font-size':10,'font-family':'Inter'},svg).textContent=k+' km';}
+  el('rect',{x:0,y:bot,width:420,height:30,fill:'#123a5c'},svg);
+  el('text',{x:210,y:bot+20,fill:'#e8ecff','font-size':11,'font-family':'Inter','text-anchor':'middle'},svg).textContent='Thumba · ground level';
+  const trail=el('path',{fill:'none',stroke:'#ffb547','stroke-opacity':.5,'stroke-width':2,'stroke-dasharray':'3 4'},svg);
+  const cloud=el('circle',{cx:0,cy:0,r:0,fill:'#ffb547','fill-opacity':.35},svg);
+  const rk=el('g',{},svg);
+  el('path',{d:'M-4 0 L-4 -26 Q0 -36 4 -26 L4 0Z',fill:'#f1f3ff'},rk);el('path',{d:'M-4 -6 L-9 2 L-4 0Z M4 -6 L9 2 L4 0Z',fill:'#ff5fa2'},rk);
+  const fl=el('path',{d:'M-3 0 Q0 18 3 0Z',fill:'#ffb547',opacity:0},rk);
+  const altV=document.getElementById('altV'),layerV=document.getElementById('layerV'),go=document.getElementById('goBtn');
+  let t=0,run=false,path=[];const T=420,APO=200;
+  function pos(t){const s=t/T;const km=APO*4*s*(1-s);const x=200+s*120;return [x,km];}
+  function layerName(km){if(km<0.5)return 'Ground · Thumba';if(km>=100&&km<=110)return '⚡ Inside the electrojet!';if(km<12)return 'Troposphere';if(km<50)return 'Stratosphere';if(km<85)return 'Mesosphere';return 'Thermosphere / Ionosphere';}
+  function draw(){const [x,km]=pos(t);rk.setAttribute('transform',`translate(${x},${Y(km)}) rotate(${t<T/2? (t/T)*40 : 20+(t/T-.5)*300})`);
+    altV.textContent=Math.round(km);layerV.textContent=layerName(km);
+    ej.setAttribute('fill',(km>=100&&km<=110)?'#fff':'#ffb547');
+    path.push([x,Y(km)]);trail.setAttribute('d','M'+path.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L'));
+    fl.setAttribute('opacity',t<70?1:0);
+    if(t>T*0.42&&t<T*0.95){const [cx,ck]=pos(T*0.42);cloud.setAttribute('cx',cx);cloud.setAttribute('cy',Y(ck));cloud.setAttribute('r',Math.min(60,(t-T*0.42)*0.4));}
+  }
+  function loop(){jd.forEach(c=>{let x=+c.getAttribute('cx')+0.6;if(x>420)x=0;c.setAttribute('cx',x);});
+    if(run){t+=1;if(t>=T){t=T;run=false;go.disabled=false;go.textContent='🚀 Launch again';layerV.textContent='Splashed into the Arabian Sea 🌊';}else draw();}
+    requestAnimationFrame(loop);}
+  function reset(){t=0;path=[];run=false;cloud.setAttribute('r',0);draw();go.disabled=false;go.textContent='🚀 Launch';}
+  go.onclick=()=>{reset();run=true;go.disabled=true;};
+  document.getElementById('resetBtn').onclick=reset;
+  reset();loop();
+})();
+
+/* ---------- quiz ---------- */
+(function(){
+  const qs=[
+    {q:"On the magnetic equator, a dip needle points…",o:["Straight down","Flat (horizontal)","Straight up"],a:1,e:"The dip is zero, so the needle lies flat."},
+    {q:"What did scientists want to study above Thumba?",o:["Monsoon clouds","The equatorial electrojet","The Moon"],a:1,e:"A strong eastward electric current at ~100–110 km over the magnetic equator."},
+    {q:"Why is the sea to the west important?",o:["For fishing","Rocket parts fall safely into it","To cool the rockets"],a:1,e:"Spent stages drop into the Arabian Sea, away from people."},
+    {q:"Which site was right on the magnetic equator in the 1960s, but lost to Thumba?",o:["Sriharikota","Vellanathuruthu","Kochi"],a:1,e:"Land was hard to get there, it had more rain and no airstrip."},
+    {q:"Which of these places is also near the magnetic equator?",o:["Jicamarca, Peru","London, UK","Tokyo, Japan"],a:0,e:"Jicamarca near Lima studies the same electrojet from South America."}
+  ];
+  const box=document.getElementById('quizBox');let score=0;document.getElementById('qTotal').textContent=qs.length;
+  qs.forEach((q,i)=>{const d=document.createElement('div');d.className='q';d.innerHTML=`<p>${i+1}. ${q.q}</p><div class="opts"></div><div class="fb"></div>`;
+    const o=d.querySelector('.opts'),fb=d.querySelector('.fb');let done=false;
+    q.o.forEach((t,j)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{if(done)return;done=true;
+      if(j===q.a){b.classList.add('right');score++;document.getElementById('score').textContent=score;fb.textContent='✔ Correct. '+q.e;}
+      else{b.classList.add('wrong');o.children[q.a].classList.add('right');fb.textContent='✘ Not quite. '+q.e;}};o.appendChild(b);});
+    box.appendChild(d);});
+})();
+
+/* ---------- nav highlight ---------- */
+(function(){const links=[...document.querySelectorAll('nav a')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));}}),{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(s=>s&&ob.observe(s));
+  document.querySelectorAll('.reason').forEach(r=>r.onclick=()=>r.classList.toggle('open'));})();
+</script>
+</body>
+</html>
