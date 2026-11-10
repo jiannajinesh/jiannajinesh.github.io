@@ -16,7 +16,9 @@
   .tabs button.on{background:#4a90e2;color:#fff}
   .btn{background:#e75480;color:#fff}
   .btn:hover{filter:brightness(1.08)}
-  svg{width:100%;max-width:520px;height:auto;touch-action:none;user-select:none}
+  svg{width:100%;max-width:520px;height:auto;user-select:none;-webkit-user-select:none}
+  #handle,#mCorner{touch-action:none}
+  @media(max-width:600px){.box{margin:14px 10px;padding:16px} h1{font-size:32px} .explain{font-size:17px}}
   .explain{font-size:19px;min-height:84px;padding:10px 14px;border-radius:16px;background:#fff7fb;margin-top:8px}
   .explain b{color:#e75480}
   .nums{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px}
@@ -526,6 +528,10 @@ $("foldReset").onclick=()=>{["f1","f2","fC"].forEach(i=>$(i).style.display="none
     const r=C/6.28;$("tRes").innerHTML=`Radius = ${C} ÷ 6.28 = <b>${r.toFixed(1)} cm</b> · Diameter = <b>${(2*r).toFixed(1)} cm</b>`;}
   $("cIn").oninput=calc; calc();
 })();
+
+
+// on phones: stop page scroll only while dragging a dot
+["handle","mCorner"].forEach(id=>$(id).addEventListener("touchstart",e=>e.preventDefault(),{passive:false}));
 
 // quiz
 const qs=[

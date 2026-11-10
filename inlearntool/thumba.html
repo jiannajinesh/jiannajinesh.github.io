@@ -110,6 +110,17 @@ table.cmp th{color:var(--mut);font-weight:600;font-size:13px;text-transform:uppe
 .opts button.right{border-color:var(--ok);color:var(--ok)}
 .opts button.wrong{border-color:var(--mag);color:var(--mag)}
 .fb{font-size:14px;color:var(--mut);margin-top:6px;min-height:20px}
+.grid2>*,.hero-grid>*,.flight>*{min-width:0}
+@media(max-width:820px){.grid2,.hero-grid,.flight{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  section{padding:44px 0}
+  .card{padding:16px}
+  .facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fact b{font-size:17px}
+  table.cmp{font-size:13px}
+  table.cmp th,table.cmp td{padding:7px 4px}
+  .lead{font-size:16px}
+}
 footer{padding:40px 0;color:var(--mut);font-size:13px}
 footer a{color:var(--mut)}
 </style>
