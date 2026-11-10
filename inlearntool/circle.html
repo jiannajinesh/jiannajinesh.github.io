@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Learn the Circle!</title>
+<style>
+  body{margin:0;font-family:"Comic Sans MS","Trebuchet MS",sans-serif;background:linear-gradient(180deg,#e0f0ff,#fde2f3);color:#333;text-align:center}
+  a.back{display:inline-block;margin:14px;color:#e75480;text-decoration:none;font-size:17px}
+  h1{font-size:40px;color:#4a90e2;margin:6px 0}
+  .sub{font-size:19px;color:#555;margin:0 10px 10px}
+  .box{background:#fff;max-width:760px;margin:18px auto;padding:20px;border-radius:22px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+  h2{color:#e75480;margin:4px 0 10px}
+  .tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:12px}
+  .tabs button,.btn{font:inherit;font-size:17px;border:none;border-radius:30px;padding:10px 20px;cursor:pointer;background:#eef4ff;color:#4a90e2}
+  .tabs button.on{background:#4a90e2;color:#fff}
+  .btn{background:#e75480;color:#fff}
+  .btn:hover{filter:brightness(1.08)}
+  svg{width:100%;max-width:520px;height:auto;touch-action:none;user-select:none}
+  .explain{font-size:19px;min-height:84px;padding:10px 14px;border-radius:16px;background:#fff7fb;margin-top:8px}
+  .explain b{color:#e75480}
+  .nums{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px}
+  .num{background:#eef4ff;border-radius:16px;padding:10px 18px;min-width:120px}
+  .num span{display:block;font-size:28px;font-weight:bold}
+  .r{color:#ff8c00}.d{color:#2bb673}.c{color:#e75480}
+  input[type=range]{width:80%;max-width:400px;accent-color:#e75480}
+  .hint{font-size:15px;color:#777}
+  ul.notes{margin:4px 0 0;padding-left:20px}
+  ul.notes li{margin:5px 0}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;text-align:left}
+  .card{background:#f6f9ff;border-radius:16px;padding:14px;font-size:16px}
+  .card h3{margin:0 0 6px}
+  .q{margin:14px 0}
+  .q p{font-size:18px;margin:6px 0}
+  .opts button{font:inherit;font-size:16px;margin:4px;padding:8px 16px;border-radius:12px;border:2px solid #dde6ff;background:#fff;cursor:pointer}
+  .opts button.right{border-color:#2bb673;color:#2bb673}
+  .opts button.wrong{border-color:#e75480;color:#e75480}
+  .fb{font-size:16px;min-height:22px;color:#555}
+  .big{font-size:24px}
+  .mtabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:8px 0 12px}
+  .mtabs button{font:inherit;font-size:16px;border:none;border-radius:30px;padding:9px 16px;cursor:pointer;background:#fff2d9;color:#c47a00}
+  .mtabs button.on{background:#ff8c00;color:#fff}
+  .mpanel{display:none}.mpanel.on{display:block}
+  .steps{text-align:left;font-size:17px;max-width:560px;margin:8px auto;padding-left:22px}
+  .steps li{margin:5px 0}
+  .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px 0}
+  .btn2{font:inherit;font-size:16px;border:none;border-radius:30px;padding:9px 18px;cursor:pointer;background:#4a90e2;color:#fff}
+  .btn2:disabled{opacity:.45;cursor:default}
+  .result{font-size:20px;min-height:30px;margin-top:8px}
+  .result b{color:#e75480}
+  input[type=number]{font:inherit;font-size:18px;width:90px;padding:6px;border-radius:10px;border:2px solid #dde6ff;text-align:center}
+  footer{padding:20px;font-size:14px;color:#777}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Learning Tools</a>
+<h1>⭕ Let's Learn the Circle!</h1>
+<p class="sub">Centre · Radius · Diameter</p>
+
+<!-- PART 1: EXPLORE -->
+<div class="box">
+  <h2>1. Explore</h2>
+  <div class="tabs" id="tabs">
+    <button data-m="circle" class="on">⭕ Circle</button>
+    <button data-m="centre">🔴 Centre</button>
+    <button data-m="radius">🟠 Radius</button>
+    <button data-m="diameter">🟢 Diameter</button>
+    <button data-m="circum">🟣 Circumference</button>
+  </div>
+
+  <svg id="board" viewBox="0 0 500 500">
+    <defs>
+      <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse">
+        <path d="M25 0 L0 0 0 25" fill="none" stroke="#e8eefc" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="500" height="500" fill="url(#grid)" rx="20"/>
+    <circle id="ring" cx="250" cy="250" r="150" fill="#fde2f3" fill-opacity=".5" stroke="#e75480" stroke-width="5"/>
+    <path id="semi1" fill="#c8f2dc" fill-opacity=".8"/>
+    <path id="semi2" fill="#fff1b8" fill-opacity=".8"/>
+    <text id="semiT1" fill="#1e8a54" font-size="16" text-anchor="middle">semicircle</text>
+    <text id="semiT2" fill="#a07a00" font-size="16" text-anchor="middle">semicircle</text>
+    <g id="extraRadii"></g>
+    <text id="circLabel" x="250" y="40" fill="#8e44ad" font-size="20" font-weight="bold" text-anchor="middle">circumference</text>
+    <line id="diaLine" stroke="#2bb673" stroke-width="6" stroke-linecap="round"/>
+    <line id="radLine" stroke="#ff8c00" stroke-width="6" stroke-linecap="round"/>
+    <text id="radLabel" fill="#ff8c00" font-size="20" font-weight="bold" text-anchor="middle">radius</text>
+    <text id="diaLabel" fill="#2bb673" font-size="20" font-weight="bold" text-anchor="middle">diameter</text>
+    <circle id="dotA" r="11" fill="#2bb673" stroke="#fff" stroke-width="3"/>
+    <circle id="centre" cx="250" cy="250" r="10" fill="#e53935" stroke="#fff" stroke-width="3"/>
+    <text id="centreLabel" x="250" y="285" fill="#e53935" font-size="20" font-weight="bold" text-anchor="middle">centre</text>
+    <circle id="handle" r="16" fill="#ff8c00" stroke="#fff" stroke-width="4" style="cursor:grab"/>
+    <text id="handleTip" fill="#888" font-size="15" text-anchor="middle">drag me!</text>
+  </svg>
+
+  <div class="explain" id="explain"></div>
+  <div id="radBtns" style="display:none;margin-top:10px">
+    <button class="btn" id="moreRad">➕ Draw more radii</button>
+    <button class="btn" id="clearRad" style="background:#aaa">Clear</button>
+    <p class="hint" id="radCount"></p>
+  </div>
+
+  <div class="nums">
+    <div class="num r">Radius<span id="rV">6</span>cm</div>
+    <div class="num d">Diameter<span id="dV">12</span>cm</div>
+  </div>
+  <p class="hint">Make the circle bigger or smaller:</p>
+  <input type="range" id="size" min="2" max="9" value="6" step="1" aria-label="Radius in cm">
+  <p class="hint">Tip: drag the orange dot around the circle. The radius moves, but its length stays the same!</p>
+</div>
+
+<!-- PART 2: MEMORY CARDS -->
+<div class="box">
+  <h2>2. Remember</h2>
+  <div class="cards">
+    <div class="card"><h3>🔴 Centre</h3><ul class="notes">
+      <li>The fixed point in the middle of a circle is <b>centre of the circle</b>.</li>
+      <li>Every circle has <b>only one center point</b>.</li></ul></div>
+    <div class="card"><h3 class="r">🟠 Radius</h3><ul class="notes">
+      <li>The line connecting the center to any point on the circle is <b>radius</b>.</li>
+      <li>We can draw an <b>infinite number of radii</b> (plural of radius) in a circle.</li>
+      <li><b>All radii of a circle are equal in length.</b></li></ul></div>
+    <div class="card"><h3 class="d">🟢 Diameter</h3><ul class="notes">
+      <li>A straight line passing through the center that connects two points on the circle.</li>
+      <li>It is the <b>longest straight line</b> that can be drawn inside a circle.</li>
+      <li>It divides the circle into <b>two equal halves (semicircles)</b>.</li></ul></div>
+    <div class="card"><h3 style="color:#8e44ad">🟣 Circumference</h3><ul class="notes">
+      <li>The boundary (outer edge) of the circle is its <b>circumference</b>.</li>
+      <li>Its length is the distance all the way around the circle.</li></ul></div>
+    <div class="card"><h3>🎯 Same centre</h3><ul class="notes">
+      <li>Circles drawn with different radii using the <b>same center point</b>.</li>
+      <li>These are called <b>concentric circles</b>.</li></ul></div>
+    <div class="card"><h3>✨ Magic rule</h3><span class="big">Diameter = 2 × Radius</span><br>Radius = Diameter ÷ 2</div>
+  </div>
+</div>
+
+<!-- PART 3: LONGEST LINE -->
+<div class="box">
+  <h2>3. Which line is the longest? 📏</h2>
+  <p style="font-size:18px">Move the purple line up and down. When is it the longest?</p>
+  <svg id="chordBoard" viewBox="0 0 400 400" style="max-width:380px">
+    <rect width="400" height="400" fill="url(#grid)" rx="20"/>
+    <circle cx="200" cy="200" r="150" fill="#fde2f3" fill-opacity=".5" stroke="#e75480" stroke-width="4"/>
+    <circle cx="200" cy="200" r="8" fill="#e53935"/>
+    <line id="chordL" stroke="#8e44ad" stroke-width="6" stroke-linecap="round"/>
+    <circle id="chA" r="7" fill="#8e44ad"/><circle id="chB" r="7" fill="#8e44ad"/>
+  </svg>
+  <br><input type="range" id="chordPos" min="-140" max="140" value="90" aria-label="Move the line">
+  <div class="result" id="chordRes"></div>
+</div>
+
+<!-- PART 4: SAME CENTRE -->
+<div class="box">
+  <h2>4. Circles with the same centre 🎯</h2>
+  <p style="font-size:18px">Circles drawn with different radii using the <b>same center point</b> are called <b>concentric circles</b>.</p>
+  <svg id="concBoard" viewBox="0 0 400 400" style="max-width:380px">
+    <rect width="400" height="400" fill="url(#grid)" rx="20"/>
+    <g id="concG"></g>
+    <circle cx="200" cy="200" r="8" fill="#e53935" stroke="#fff" stroke-width="3"/>
+  </svg>
+  <div class="row">
+    <button class="btn" id="addConc">➕ Add a circle</button>
+    <button class="btn" id="clrConc" style="background:#aaa">Clear</button>
+  </div>
+  <div class="result" id="concRes"></div>
+  <p class="hint">Real life: ripples in water, a dartboard, rings of a tree trunk. 🌊🎯🌳</p>
+</div>
+
+<!-- PART 5: DRAW WITH COMPASS -->
+<div class="box">
+  <h2>5. Watch a compass draw a circle</h2>
+  <svg id="draw" viewBox="0 0 500 360">
+    <rect width="500" height="360" fill="#fffdf6" rx="20"/>
+    <path id="trace" fill="none" stroke="#e75480" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="250" cy="190" r="7" fill="#e53935"/>
+    <line id="arm" x1="250" y1="190" x2="370" y2="190" stroke="#ff8c00" stroke-width="5" stroke-linecap="round"/>
+    <circle id="pencil" cx="370" cy="190" r="8" fill="#4a90e2"/>
+    <text x="250" y="40" text-anchor="middle" font-size="17" fill="#555">The pin stays at the centre. The arm is the radius.</text>
+  </svg>
+  <br><button class="btn" id="drawBtn">✏️ Draw the circle</button>
+</div>
+
+<!-- PART 4: FIND THE CENTRE -->
+<div class="box">
+  <h2>6. Detective time: find the centre! 🕵️</h2>
+  <p style="font-size:18px">You drew a circle around a bangle or a lid. Where is its centre? What is its radius? Try these tricks.</p>
+  <div class="mtabs" id="mtabs">
+    <button data-p="corner" class="on">📐 Paper corner</button>
+    <button data-p="fold">📄 Fold</button>
+    <button data-p="chord">✏️ Two chords</button>
+    <button data-p="thread">🧵 Thread</button>
+  </div>
+
+  <!-- Paper corner -->
+  <div class="mpanel on" id="p-corner">
+    <ol class="steps">
+      <li>Put the <b>square corner</b> of a paper on the edge of the circle.</li>
+      <li>The two sides of the paper cut the circle at <b>A</b> and <b>B</b>.</li>
+      <li>Line AB is always a <b>diameter</b>! Mark it.</li>
+      <li>Move the corner to another place. Mark a second line.</li>
+      <li>The lines <b>cross at the centre</b>. 🎯</li>
+    </ol>
+    <svg id="mys" viewBox="0 0 500 500">
+      <defs><clipPath id="mclip"><rect width="500" height="500" rx="20"/></clipPath></defs>
+      <rect width="500" height="500" fill="url(#grid)" rx="20"/>
+      <circle id="mRing" fill="#fffbe6" stroke="#e75480" stroke-width="5"/>
+      <g id="mLines"></g>
+      <g clip-path="url(#mclip)"><polygon id="paper" fill="#4a90e2" fill-opacity=".18" stroke="#4a90e2" stroke-width="2"/></g>
+      <line id="mAB" stroke="#2bb673" stroke-width="4" stroke-dasharray="8 6"/>
+      <circle id="mA" r="8" fill="#2bb673"/><circle id="mB" r="8" fill="#2bb673"/>
+      <text id="tA" fill="#2bb673" font-size="20" font-weight="bold">A</text>
+      <text id="tB" fill="#2bb673" font-size="20" font-weight="bold">B</text>
+      <path id="sq" fill="none" stroke="#4a90e2" stroke-width="2"/>
+      <line id="mRad" stroke="#ff8c00" stroke-width="5" stroke-linecap="round" style="display:none"/>
+      <circle id="mCentre" r="10" fill="#e53935" stroke="#fff" stroke-width="3" style="display:none"/>
+      <circle id="mCorner" r="15" fill="#4a90e2" stroke="#fff" stroke-width="4" style="cursor:grab"/>
+    </svg>
+    <p class="hint">Drag the blue corner around the circle edge. Use the slider to turn the paper.</p>
+    <input type="range" id="turn" min="-35" max="35" value="0" aria-label="Turn the paper">
+    <div class="row">
+      <button class="btn2" id="markBtn">✏️ Mark line AB</button>
+      <button class="btn2" id="newBtn">🔄 New mystery circle</button>
+    </div>
+    <div class="result" id="mRes">Lines marked: 0 of 2</div>
+  </div>
+
+  <!-- Fold -->
+  <div class="mpanel" id="p-fold">
+    <ol class="steps">
+      <li>Cut out the circle.</li>
+      <li>Fold it exactly in half. The fold line is a <b>diameter</b>.</li>
+      <li>Open it. Fold in half again, a different way.</li>
+      <li>The two folds <b>cross at the centre</b>. 🎯</li>
+    </ol>
+    <svg viewBox="0 0 400 400" style="max-width:380px">
+      <rect width="400" height="400" fill="url(#grid)" rx="20"/>
+      <circle cx="200" cy="200" r="140" fill="#fde2f3" stroke="#e75480" stroke-width="4"/>
+      <line id="f1" x1="60" y1="200" x2="340" y2="200" stroke="#2bb673" stroke-width="4" stroke-dasharray="8 6" style="display:none"/>
+      <line id="f2" x1="200" y1="60" x2="200" y2="340" stroke="#2bb673" stroke-width="4" stroke-dasharray="8 6" style="display:none"/>
+      <path id="flap" fill="#f7b6d2" stroke="#e75480" stroke-width="3" style="display:none"/>
+      <circle id="fC" cx="200" cy="200" r="10" fill="#e53935" stroke="#fff" stroke-width="3" style="display:none"/>
+    </svg>
+    <div class="row">
+      <button class="btn2" id="fold1">📄 Fold 1</button>
+      <button class="btn2" id="fold2" disabled>📄 Fold 2</button>
+      <button class="btn2" id="foldReset">🔄 Reset</button>
+    </div>
+    <div class="result" id="fRes">Press Fold 1 to start.</div>
+  </div>
+
+  <!-- Chords -->
+  <div class="mpanel" id="p-chord">
+    <ol class="steps">
+      <li>Draw any two lines joining points on the circle. These are <b>chords</b> (purple).</li>
+      <li>With a compass, draw the <b>perpendicular bisector</b> of each chord (dashed). It cuts the chord in half at a right angle.</li>
+      <li>Every such bisector passes through the centre, so they <b>meet at the centre</b>. 🎯</li>
+    </ol>
+    <svg id="chordSvg" viewBox="0 0 400 400" style="max-width:380px"></svg>
+    <div class="row"><button class="btn2" id="chordBtn">▶️ Show the steps</button></div>
+    <p class="hint">Good for Class 8 and above.</p>
+  </div>
+
+  <!-- Thread -->
+  <div class="mpanel" id="p-thread">
+    <ol class="steps">
+      <li>Wrap a thread once around the bangle or lid.</li>
+      <li>Open it and measure it with a ruler. This is the <b>circumference</b> (the distance around).</li>
+      <li><b>Radius = circumference ÷ 6.28</b></li>
+    </ol>
+    <svg id="thSvg" viewBox="0 0 500 260"></svg>
+    <div class="row"><button class="btn2" id="unroll">🧵 Unroll the thread</button></div>
+    <p style="font-size:18px">Thread length: <input type="number" id="cIn" value="22" min="1" step="0.5"> cm</p>
+    <div class="result" id="tRes"></div>
+  </div>
+
+  <div class="card" style="margin-top:14px;text-align:left">💡 <b>Tip:</b> Hand-drawn circles are never perfect. Measure the radius in 2 or 3 directions and take the average.</div>
+</div>
+
+<!-- PART 5: QUIZ -->
+<div class="box">
+  <h2>7. Quiz time! 🎯</h2>
+  <div id="quiz"></div>
+  <p class="big">Score: <b id="score">0</b> / <span id="total">0</span></p>
+</div>
+
+<footer>Made with love for Jianna 💕</footer>
+
+<script>
+const CX=250, CY=250, PX_PER_CM=25;
+let rCm=6, angle=-0.6, mode="circle";
+const $=id=>document.getElementById(id);
+
+const texts={
+  circle:"A <b>circle</b> is a round shape. Every point on its edge is the <b>same distance</b> from the middle. ⭕",
+  centre:"The fixed point in the middle of a circle is <b>centre of the circle</b>. 🔴 Every circle has <b>only one center point</b>.",
+  radius:"The line connecting the center to any point on the circle is <b>radius</b>. 🟠 We can draw an <b>infinite number of radii</b>. <b>All radii of a circle are equal in length.</b> Press ➕ to draw more!",
+  diameter:"A straight line passing through the center that connects two points on the circle is the <b>diameter</b>. 🟢 It is the <b>longest straight line</b> inside a circle. It divides the circle into <b>two equal halves (semicircles)</b>. Diameter = 2 × Radius.",
+  circum:"The boundary (outer edge) of the circle is its <b>circumference</b>. 🟣 Its length is the distance all the way around the circle."
+};
+let extra=[];
+
+function draw(){
+  const r=rCm*PX_PER_CM;
+  const hx=CX+r*Math.cos(angle), hy=CY+r*Math.sin(angle);
+  const ax=CX-r*Math.cos(angle), ay=CY-r*Math.sin(angle);
+  $("ring").setAttribute("r",r);
+  $("handle").setAttribute("cx",hx); $("handle").setAttribute("cy",hy);
+  $("handleTip").setAttribute("x",hx); $("handleTip").setAttribute("y",hy-24);
+  $("radLine").setAttribute("x1",CX); $("radLine").setAttribute("y1",CY);
+  $("radLine").setAttribute("x2",hx); $("radLine").setAttribute("y2",hy);
+  $("diaLine").setAttribute("x1",ax); $("diaLine").setAttribute("y1",ay);
+  $("diaLine").setAttribute("x2",hx); $("diaLine").setAttribute("y2",hy);
+  $("dotA").setAttribute("cx",ax); $("dotA").setAttribute("cy",ay);
+  // labels placed beside the lines
+  const nx=-Math.sin(angle)*24, ny=Math.cos(angle)*24;
+  $("radLabel").setAttribute("x",(CX+hx)/2+nx); $("radLabel").setAttribute("y",(CY+hy)/2+ny);
+  $("diaLabel").setAttribute("x",(CX+ax)/2-nx); $("diaLabel").setAttribute("y",(CY+ay)/2-ny);
+  $("rV").textContent=rCm; $("dV").textContent=rCm*2;
+
+  const show=(id,on)=>$(id).style.display=on?"":"none";
+  const fade=(id,on)=>$(id).style.opacity=on?1:.15;
+  show("radLine",mode==="radius"||mode==="circle");
+  show("radLabel",mode==="radius");
+  show("handle",mode!=="centre");
+  show("handleTip",mode==="radius"||mode==="diameter");
+  show("diaLine",mode==="diameter");
+  show("diaLabel",mode==="diameter");
+  show("dotA",mode==="diameter");
+  show("centreLabel",mode==="centre"||mode==="radius"||mode==="diameter");
+  fade("ring",true);
+  $("radLine").style.opacity=mode==="circle"?0:1;
+  $("centre").setAttribute("r",mode==="centre"?14:10);
+  $("explain").innerHTML=texts[mode];
+  // semicircles
+  const sweep=`A${r} ${r} 0 0 1`;
+  $("semi1").setAttribute("d",`M${hx} ${hy} ${sweep} ${ax} ${ay} Z`);
+  $("semi2").setAttribute("d",`M${ax} ${ay} ${sweep} ${hx} ${hy} Z`);
+  const mx=Math.cos(angle+Math.PI/2)*r*0.55, my=Math.sin(angle+Math.PI/2)*r*0.55;
+  $("semiT1").setAttribute("x",CX+mx);$("semiT1").setAttribute("y",CY+my);
+  $("semiT2").setAttribute("x",CX-mx);$("semiT2").setAttribute("y",CY-my);
+  ["semi1","semi2","semiT1","semiT2"].forEach(id=>show(id,mode==="diameter"));
+  // circumference highlight
+  $("ring").setAttribute("stroke",mode==="circum"?"#8e44ad":"#e75480");
+  $("ring").setAttribute("stroke-width",mode==="circum"?9:5);
+  show("circLabel",mode==="circum");
+  $("circLabel").setAttribute("y",Math.max(28,CY-r-14));
+  // extra radii
+  const g=$("extraRadii"); g.innerHTML="";
+  if(mode==="radius") extra.forEach(a=>{const l=document.createElementNS("http://www.w3.org/2000/svg","line");
+    [["x1",CX],["y1",CY],["x2",CX+r*Math.cos(a)],["y2",CY+r*Math.sin(a)],["stroke","#ffb35c"],["stroke-width",4],["stroke-linecap","round"]].forEach(([k,v])=>l.setAttribute(k,v));g.appendChild(l);});
+  $("radBtns").style.display=mode==="radius"?"":"none";
+  $("radCount").innerHTML=extra.length?`Radii drawn: <b>${extra.length+1}</b>. Each one is <b>${rCm} cm</b> long. We could draw infinitely many! ♾️`:"";
+}
+
+// tabs
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); mode=b.dataset.m; draw();
+});
+
+$("moreRad").onclick=()=>{for(let i=0;i<3;i++)extra.push(Math.random()*Math.PI*2);draw();};
+$("clearRad").onclick=()=>{extra=[];draw();};
+
+// longest line (chord)
+function chord(){const d=+$("chordPos").value,R=150,half=Math.sqrt(R*R-d*d),y=200+d;
+  $("chordL").setAttribute("x1",200-half);$("chordL").setAttribute("x2",200+half);$("chordL").setAttribute("y1",y);$("chordL").setAttribute("y2",y);
+  $("chA").setAttribute("cx",200-half);$("chA").setAttribute("cy",y);$("chB").setAttribute("cx",200+half);$("chB").setAttribute("cy",y);
+  const len=(2*half/25).toFixed(1);
+  $("chordL").setAttribute("stroke",Math.abs(d)<4?"#2bb673":"#8e44ad");
+  $("chordRes").innerHTML=Math.abs(d)<4?`🎉 Length = <b>${len} cm</b>. It passes through the centre, so it is the <b>diameter</b>, the <b>longest straight line</b> in the circle!`:`Length = <b>${len} cm</b>. Move it closer to the centre to make it longer.`;}
+$("chordPos").oninput=chord; chord();
+
+// concentric circles
+const concColors=["#e75480","#ff8c00","#f5c400","#2bb673","#4a90e2","#8e44ad"];let concN=0;
+$("addConc").onclick=()=>{if(concN>=6){$("concRes").innerHTML="That's 6 circles! All share <b>one centre</b>. 🎯";return;}
+  const r=28+concN*28;const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
+  [["cx",200],["cy",200],["r",r],["fill","none"],["stroke",concColors[concN]],["stroke-width",5]].forEach(([k,v])=>c.setAttribute(k,v));
+  $("concG").appendChild(c);concN++;
+  $("concRes").innerHTML=`Circles: <b>${concN}</b>. Different radii, <b>same centre</b>. Newest radius = <b>${(r/25).toFixed(1)} cm</b>.`;};
+$("clrConc").onclick=()=>{$("concG").innerHTML="";concN=0;$("concRes").textContent="";};
+
+// slider
+$("size").oninput=e=>{rCm=+e.target.value; draw();};
+
+// dragging the orange dot
+const board=$("board"); let dragging=false;
+function toSvg(e){const p=board.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(board.getScreenCTM().inverse());}
+$("handle").addEventListener("pointerdown",e=>{dragging=true;$("handle").setPointerCapture(e.pointerId);});
+board.addEventListener("pointermove",e=>{if(!dragging)return;const p=toSvg(e);angle=Math.atan2(p.y-CY,p.x-CX);draw();});
+board.addEventListener("pointerup",()=>dragging=false);
+draw();
+
+// compass drawing
+$("drawBtn").onclick=()=>{
+  const btn=$("drawBtn"); btn.disabled=true;
+  let a=0; const R=120, cx=250, cy=190; let d=`M${cx+R} ${cy}`;
+  function step(){
+    a+=0.05; if(a>Math.PI*2)a=Math.PI*2;
+    const x=cx+R*Math.cos(a), y=cy+R*Math.sin(a);
+    d+=` L${x.toFixed(1)} ${y.toFixed(1)}`;
+    $("trace").setAttribute("d",d);
+    $("arm").setAttribute("x2",x); $("arm").setAttribute("y2",y);
+    $("pencil").setAttribute("cx",x); $("pencil").setAttribute("cy",y);
+    if(a<Math.PI*2) requestAnimationFrame(step); else {btn.disabled=false; btn.textContent="✏️ Draw again";}
+  }
+  $("trace").setAttribute("d",d); step();
+};
+
+
+// ===== Detective: find the centre =====
+document.querySelectorAll("#mtabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#mtabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".mpanel").forEach(p=>p.classList.toggle("on",p.id==="p-"+b.dataset.p));
+});
+
+// --- paper corner ---
+const mys=$("mys"); let mc={x:250,y:250,r:150}, mt=1.2, marked=[], mDrag=false;
+function newMystery(){
+  const rcm=(Math.round((3.6+Math.random()*3.2)*10))/10;
+  mc={r:rcm*PX_PER_CM, rcm};
+  mc.x=200+Math.random()*100; mc.y=200+Math.random()*100;
+  $("mRing").setAttribute("cx",mc.x);$("mRing").setAttribute("cy",mc.y);$("mRing").setAttribute("r",mc.r);
+  marked=[]; $("mLines").innerHTML=""; $("mCentre").style.display="none"; $("mRad").style.display="none";
+  $("markBtn").disabled=false; $("mRes").innerHTML="Lines marked: 0 of 2"; drawCorner();
+}
+function hit(P,d){const s=-2*((P.x-mc.x)*d.x+(P.y-mc.y)*d.y);return {x:P.x+s*d.x,y:P.y+s*d.y};}
+let AB=null;
+function drawCorner(){
+  const P={x:mc.x+mc.r*Math.cos(mt),y:mc.y+mc.r*Math.sin(mt)};
+  const toC=Math.atan2(mc.y-P.y,mc.x-P.x)+(+$("turn").value)*Math.PI/180;
+  const u={x:Math.cos(toC-Math.PI/4),y:Math.sin(toC-Math.PI/4)}, v={x:Math.cos(toC+Math.PI/4),y:Math.sin(toC+Math.PI/4)};
+  const L=700;
+  $("paper").setAttribute("points",`${P.x},${P.y} ${P.x+L*u.x},${P.y+L*u.y} ${P.x+L*(u.x+v.x)},${P.y+L*(u.y+v.y)} ${P.x+L*v.x},${P.y+L*v.y}`);
+  const q=16; $("sq").setAttribute("d",`M${P.x+q*u.x} ${P.y+q*u.y} L${P.x+q*(u.x+v.x)} ${P.y+q*(u.y+v.y)} L${P.x+q*v.x} ${P.y+q*v.y}`);
+  const A=hit(P,u),B=hit(P,v); AB={A,B};
+  [["mA",A],["mB",B]].forEach(([id,p])=>{$(id).setAttribute("cx",p.x);$(id).setAttribute("cy",p.y);});
+  $("tA").setAttribute("x",A.x+10);$("tA").setAttribute("y",A.y-10);$("tB").setAttribute("x",B.x+10);$("tB").setAttribute("y",B.y-10);
+  $("mAB").setAttribute("x1",A.x);$("mAB").setAttribute("y1",A.y);$("mAB").setAttribute("x2",B.x);$("mAB").setAttribute("y2",B.y);
+  $("mCorner").setAttribute("cx",P.x);$("mCorner").setAttribute("cy",P.y);
+}
+function mPt(e){const p=mys.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(mys.getScreenCTM().inverse());}
+$("mCorner").addEventListener("pointerdown",e=>{mDrag=true;$("mCorner").setPointerCapture(e.pointerId);});
+mys.addEventListener("pointermove",e=>{if(!mDrag)return;const p=mPt(e);mt=Math.atan2(p.y-mc.y,p.x-mc.x);drawCorner();});
+mys.addEventListener("pointerup",()=>mDrag=false);
+$("turn").oninput=drawCorner;
+$("markBtn").onclick=()=>{
+  const ang=Math.atan2(AB.B.y-AB.A.y,AB.B.x-AB.A.x);
+  if(marked.length===1){let diff=Math.abs(((ang-marked[0])%Math.PI+Math.PI)%Math.PI);diff=Math.min(diff,Math.PI-diff);
+    if(diff<0.35){$("mRes").innerHTML="🙂 Too close to the first line. Move the corner further around the circle.";return;}}
+  marked.push(ang);
+  const ln=document.createElementNS("http://www.w3.org/2000/svg","line");
+  [["x1",AB.A.x],["y1",AB.A.y],["x2",AB.B.x],["y2",AB.B.y],["stroke","#2bb673"],["stroke-width",4]].forEach(([k,v])=>ln.setAttribute(k,v));
+  $("mLines").appendChild(ln);
+  if(marked.length===1){$("mRes").innerHTML="Lines marked: 1 of 2. Now move the corner and mark again.";return;}
+  $("markBtn").disabled=true;
+  $("mCentre").setAttribute("cx",mc.x);$("mCentre").setAttribute("cy",mc.y);$("mCentre").style.display="";
+  $("mRad").setAttribute("x1",mc.x);$("mRad").setAttribute("y1",mc.y);
+  $("mRad").setAttribute("x2",mc.x+mc.r);$("mRad").setAttribute("y2",mc.y);$("mRad").style.display="";
+  $("mRes").innerHTML=`🎯 Found the centre! Diameter = <b>${(mc.rcm*2).toFixed(1)} cm</b> · Radius = ${(mc.rcm*2).toFixed(1)} ÷ 2 = <b>${mc.rcm.toFixed(1)} cm</b>`;
+};
+$("newBtn").onclick=newMystery;
+newMystery();
+
+// --- fold ---
+function animateFlap(axis,done){
+  const flap=$("flap"); flap.style.display=""; let t=0;
+  const base=axis==="h"?"M60 200 A140 140 0 0 1 340 200 Z":"M200 60 A140 140 0 0 0 200 340 Z";
+  flap.setAttribute("d",base);
+  function step(){t+=0.03;const k=Math.cos(Math.min(t,1)*Math.PI);
+    flap.setAttribute("transform",axis==="h"?`translate(0,200) scale(1,${k}) translate(0,-200)`:`translate(200,0) scale(${k},1) translate(-200,0)`);
+    if(t<2){requestAnimationFrame(step);}else{flap.style.display="none";flap.removeAttribute("transform");done();}
+    if(t>=1&&t<1.03)flap.setAttribute("fill-opacity",.9);}
+  step();
+}
+$("fold1").onclick=()=>{$("fold1").disabled=true;$("fRes").textContent="Folding in half…";
+  animateFlap("h",()=>{$("f1").style.display="";$("fold2").disabled=false;$("fRes").textContent="Open it. The fold is a diameter! Now press Fold 2.";});};
+$("fold2").onclick=()=>{$("fold2").disabled=true;$("fRes").textContent="Folding again…";
+  animateFlap("v",()=>{$("f2").style.display="";$("fC").style.display="";$("fRes").textContent="🎯 The two folds cross at the centre! Measure centre to edge to get the radius.";});};
+$("foldReset").onclick=()=>{["f1","f2","fC"].forEach(i=>$(i).style.display="none");$("fold1").disabled=false;$("fold2").disabled=true;$("fRes").textContent="Press Fold 1 to start.";};
+
+// --- chords ---
+(function(){
+  const sv=$("chordSvg"),NS="http://www.w3.org/2000/svg",C={x:200,y:200},R=140;
+  function mk(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);sv.appendChild(e);return e;}
+  function reset(){sv.innerHTML="";mk("rect",{width:400,height:400,fill:"url(#grid)",rx:20});mk("circle",{cx:200,cy:200,r:R,fill:"#fffbe6",stroke:"#e75480","stroke-width":4});}
+  const pt=a=>({x:C.x+R*Math.cos(a),y:C.y+R*Math.sin(a)});
+  const chords=[[pt(3.6),pt(5.4)],[pt(0.2),pt(1.7)]];
+  reset();
+  $("chordBtn").onclick=()=>{
+    reset();let step=0;
+    const actions=[
+      ()=>chords.forEach(([a,b])=>mk("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#8e44ad","stroke-width":5,"stroke-linecap":"round"})),
+      ()=>chords.forEach(([a,b])=>{const m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};mk("circle",{cx:m.x,cy:m.y,r:6,fill:"#8e44ad"});
+        const dx=m.x-C.x,dy=m.y-C.y,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;
+        mk("line",{x1:m.x+ux*90,y1:m.y+uy*90,x2:C.x-ux*130,y2:C.y-uy*130,stroke:"#2bb673","stroke-width":3,"stroke-dasharray":"8 6"});}),
+      ()=>{mk("circle",{cx:200,cy:200,r:10,fill:"#e53935",stroke:"#fff","stroke-width":3});
+        mk("text",{x:200,y:235,"text-anchor":"middle",fill:"#e53935","font-size":18,"font-weight":"bold"}).textContent="centre";}
+    ];
+    (function next(){actions[step++]();if(step<actions.length)setTimeout(next,1200);})();
+  };
+})();
+
+// --- thread ---
+(function(){
+  const sv=$("thSvg"),NS="http://www.w3.org/2000/svg";
+  function mk(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);sv.appendChild(e);return e;}
+  const R=55,cx=110,cy=110,Cpx=2*Math.PI*R;
+  mk("rect",{width:500,height:260,fill:"#fffdf6",rx:20});
+  mk("circle",{cx,cy,r:R,fill:"#fde2f3",stroke:"#e75480","stroke-width":4});
+  const arc=mk("path",{fill:"none",stroke:"#8e44ad","stroke-width":5,"stroke-linecap":"round"});
+  const line=mk("line",{x1:cx,y1:cy+R,y2:cy+R,x2:cx,stroke:"#8e44ad","stroke-width":5,"stroke-linecap":"round"});
+  const lab=mk("text",{x:250,y:215,"text-anchor":"middle",fill:"#8e44ad","font-size":17});
+  function draw(f){ // f = fraction unrolled
+    const left=2*Math.PI*(1-f); let d="";
+    if(left>0.01){const a0=Math.PI/2, a1=Math.PI/2+left;
+      const p0={x:cx+R*Math.cos(a0),y:cy+R*Math.sin(a0)},p1={x:cx+R*Math.cos(a1),y:cy+R*Math.sin(a1)};
+      d=`M${p0.x} ${p0.y} A${R} ${R} 0 ${left>Math.PI?1:0} 1 ${p1.x} ${p1.y}`;}
+    arc.setAttribute("d",d); line.setAttribute("x2",cx+Cpx*f);
+    lab.textContent=f>0.98?"This straight thread = circumference":"";
+  }
+  draw(0);
+  $("unroll").onclick=()=>{let f=0;(function s(){f+=0.012;draw(Math.min(f,1));if(f<1)requestAnimationFrame(s);})();};
+  function calc(){const C=parseFloat($("cIn").value);
+    if(!(C>0)){$("tRes").textContent="Type the thread length in cm.";return;}
+    const r=C/6.28;$("tRes").innerHTML=`Radius = ${C} ÷ 6.28 = <b>${r.toFixed(1)} cm</b> · Diameter = <b>${(2*r).toFixed(1)} cm</b>`;}
+  $("cIn").oninput=calc; calc();
+})();
+
+// quiz
+const qs=[
+  {q:"The middle point of a circle is called the…",o:["Radius","Centre","Diameter"],a:1,e:"The centre is the exact middle point."},
+  {q:"A line from the centre to the edge is the…",o:["Radius","Diameter","Centre"],a:0,e:"Radius: centre → edge."},
+  {q:"The radius is 5 cm. What is the diameter?",o:["5 cm","10 cm","2.5 cm"],a:1,e:"Diameter = 2 × 5 = 10 cm."},
+  {q:"The diameter is 8 cm. What is the radius?",o:["16 cm","4 cm","8 cm"],a:1,e:"Radius = 8 ÷ 2 = 4 cm."},
+  {q:"Which line always passes through the centre and touches the edge on both sides?",o:["Radius","Diameter"],a:1,e:"The diameter goes edge to edge through the centre."},
+  {q:"Are all radii of the same circle equal?",o:["Yes","No"],a:0,e:"Yes! Every radius of a circle has the same length."},
+  {q:"How many centre points does a circle have?",o:["Only one","Two","Many"],a:0,e:"Every circle has only one center point."},
+  {q:"How many radii can we draw in a circle?",o:["Only 2","Only 10","Infinite (as many as we like)"],a:2,e:"We can draw an infinite number of radii in a circle."},
+  {q:"The diameter divides a circle into two equal halves called…",o:["Quarters","Semicircles","Radii"],a:1,e:"Each half is a semicircle."},
+  {q:"Circles with different radii but the same centre are called…",o:["Concentric circles","Semicircles","Big circles"],a:0,e:"Concentric circles share the same center point."},
+  {q:"The outer boundary of a circle is called the…",o:["Diameter","Circumference","Centre"],a:1,e:"The circumference is the outer edge of the circle."},
+  {q:"You put the square corner of a paper on the edge of a circle. The line joining the two cut points is a…",o:["Radius","Diameter","Chord that misses the centre"],a:1,e:"A right-angle corner on the circle always gives a diameter."},
+  {q:"A thread around a lid measures 31.4 cm. What is the radius?",o:["5 cm","10 cm","31.4 cm"],a:0,e:"Radius = 31.4 ÷ 6.28 = 5 cm."}
+];
+let score=0; $("total").textContent=qs.length;
+qs.forEach((q,i)=>{
+  const div=document.createElement("div"); div.className="q";
+  div.innerHTML=`<p>${i+1}. ${q.q}</p><div class="opts"></div><div class="fb"></div>`;
+  const opts=div.querySelector(".opts"), fb=div.querySelector(".fb"); let done=false;
+  q.o.forEach((t,j)=>{
+    const b=document.createElement("button"); b.textContent=t;
+    b.onclick=()=>{ if(done)return; done=true;
+      if(j===q.a){b.classList.add("right");score++;$("score").textContent=score;fb.textContent="✅ Yes! "+q.e;}
+      else{b.classList.add("wrong");opts.children[q.a].classList.add("right");fb.textContent="🙂 Almost! "+q.e;}
+      if(score===qs.length) fb.textContent+="  🎉 Full marks!";
+    };
+    opts.appendChild(b);
+  });
+  $("quiz").appendChild(div);
+});
+</script>
+</body>
+</html>
