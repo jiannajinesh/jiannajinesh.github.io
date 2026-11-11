@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is Horsepower?</title>
+<style>
+  body{margin:0;font-family:"Comic Sans MS","Trebuchet MS",sans-serif;background:linear-gradient(180deg,#fff4dc,#e0f0ff);color:#333;text-align:center}
+  a.back{display:inline-block;margin:14px;color:#e75480;text-decoration:none;font-size:17px}
+  h1{font-size:40px;color:#c46a00;margin:6px 0}
+  .sub{font-size:19px;color:#555;margin:0 10px 10px}
+  .box{background:#fff;max-width:820px;margin:18px auto;padding:20px;border-radius:22px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+  h2{color:#e75480;margin:4px 0 10px}
+  p{font-size:18px}
+  .story{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;text-align:left}
+  .card{background:#fff8ec;border-radius:16px;padding:14px;font-size:16.5px}
+  .card h3{margin:0 0 6px;color:#c46a00}
+  .formula{display:inline-block;background:#eef4ff;border-radius:16px;padding:12px 18px;margin:6px;font-size:19px}
+  .formula b{color:#4a90e2}
+  svg{width:100%;height:auto;user-select:none}
+  .ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+  .ctrl label{display:block;background:#f6f9ff;border-radius:16px;padding:12px;font-size:17px}
+  .ctrl .v{font-size:24px;font-weight:bold;color:#4a90e2}
+  input[type=range]{width:100%;accent-color:#e75480;height:34px}
+  .pm{display:flex;align-items:center;gap:8px}
+  .pm button{font:inherit;font-size:22px;width:44px;height:44px;flex:none;border-radius:50%;border:none;background:#4a90e2;color:#fff;cursor:pointer}
+  .btn{font:inherit;font-size:19px;border:none;border-radius:30px;padding:12px 26px;cursor:pointer;background:#e75480;color:#fff;margin:6px}
+  .btn.blue{background:#4a90e2}
+  .btn:disabled{opacity:.5}
+  .calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:14px}
+  .step{background:#eef4ff;border-radius:16px;padding:12px;font-size:15.5px}
+  .step span{display:block;font-size:22px;font-weight:bold;color:#333;margin-top:4px}
+  .step.hp{background:#ffe9c7}
+  .step.hp span{color:#c46a00;font-size:30px}
+  .horses{font-size:34px;min-height:46px;margin:10px 0;line-height:1.3;word-break:break-all}
+  .part{display:inline-block;overflow:hidden;vertical-align:bottom;white-space:nowrap}
+  .verdict{font-size:20px;min-height:30px}
+  .verdict b{color:#e75480}
+  .examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .ex{background:#f6f9ff;border-radius:16px;padding:12px;cursor:pointer;border:3px solid transparent}
+  .ex.on{border-color:#e75480}
+  .ex .ic{font-size:38px}
+  .ex b{display:block;font-size:17px}
+  .ex small{color:#777}
+  .exOut{font-size:19px;min-height:60px;margin-top:12px}
+  .q{margin:14px 0}
+  .q p{margin:6px 0}
+  .opts button{font:inherit;font-size:16px;margin:4px;padding:8px 16px;border-radius:12px;border:2px solid #dde6ff;background:#fff;cursor:pointer}
+  .opts button.right{border-color:#2bb673;color:#2bb673}
+  .opts button.wrong{border-color:#e75480;color:#e75480}
+  .fb{font-size:16px;min-height:22px;color:#555}
+  .big{font-size:24px}
+  .hint{font-size:15px;color:#777}
+  footer{padding:20px;font-size:14px;color:#777}
+  @media(max-width:600px){.box{margin:14px 10px;padding:16px} h1{font-size:32px}}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Learning Tools</a>
+<h1>🐎 What is Horsepower?</h1>
+<p class="sub">Let a horse do the work and find out!</p>
+
+<!-- PART 1 -->
+<div class="box">
+  <h2>1. The story 📜</h2>
+  <div class="story">
+    <div class="card"><h3>👷 James Watt</h3>About 250 years ago, James Watt made better steam engines. People used <b>horses</b> to pull and lift things. So he needed a simple way to say how strong his engine was.</div>
+    <div class="card"><h3>🐎 Watching horses</h3>He watched horses pulling ropes to lift loads from mines and wells. He measured how much work one horse could do in one second.</div>
+    <div class="card"><h3>💡 Horsepower</h3>He said: <b>1 horsepower (hp)</b> = the work of one strong horse every second. "My engine = 10 horses!" was easy for everyone to understand.</div>
+  </div>
+  <p style="margin-top:16px"><b>1 horsepower</b> is like lifting about <b>76 kg</b> (one grown-up person) up by <b>1 metre</b> in <b>1 second</b>.</p>
+  <div class="formula">1 hp ≈ <b>746 watts</b></div>
+</div>
+
+<!-- PART 2 -->
+<div class="box">
+  <h2>2. Make the horse work! 🪣</h2>
+  <p>The horse pulls a rope. The rope goes over a wheel and lifts a bucket from a well. When the horse walks <b>1 metre</b>, the bucket goes up <b>1 metre</b>.</p>
+
+  <svg id="scene" viewBox="0 0 800 380" aria-label="Horse pulling a rope to lift a bucket from a well">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9ff"/><stop offset="1" stop-color="#f4fbff"/></linearGradient>
+    </defs>
+    <rect width="800" height="380" fill="url(#sky)" rx="18"/>
+    <text x="700" y="60" font-size="44">☀️</text>
+    <!-- ground -->
+    <rect x="0" y="210" width="800" height="170" fill="#c9e7a7"/>
+    <rect x="0" y="210" width="800" height="8" fill="#9ccc65"/>
+    <!-- well shaft -->
+    <rect x="50" y="210" width="80" height="165" fill="#6d4c41"/>
+    <rect x="58" y="210" width="64" height="165" fill="#3e2723"/>
+    <rect x="58" y="350" width="64" height="25" fill="#4a90e2" opacity=".7"/>
+    <rect x="40" y="196" width="100" height="18" rx="4" fill="#8d6e63"/>
+    <!-- frame and pulley -->
+    <rect x="52" y="90" width="8" height="110" fill="#795548"/>
+    <rect x="120" y="90" width="8" height="110" fill="#795548"/>
+    <rect x="48" y="84" width="84" height="10" rx="4" fill="#795548"/>
+    <circle id="pulley" cx="112" cy="108" r="16" fill="#ffb547" stroke="#795548" stroke-width="5"/>
+    <line id="spoke" x1="112" y1="94" x2="112" y2="122" stroke="#795548" stroke-width="3"/>
+    <!-- rope -->
+    <line id="ropeV" x1="96" y1="108" x2="96" y2="330" stroke="#8d6e63" stroke-width="4"/>
+    <polyline id="ropeH" fill="none" stroke="#8d6e63" stroke-width="4"/>
+    <!-- bucket -->
+    <g id="bucket">
+      <path d="M-18 0 L18 0 L13 30 L-13 30 Z" fill="#9e9e9e" stroke="#555" stroke-width="2"/>
+      <path d="M-16 0 Q0 -16 16 0" fill="none" stroke="#555" stroke-width="2"/>
+      <text id="kgT" x="0" y="21" font-size="11" text-anchor="middle" fill="#fff" font-weight="bold">50kg</text>
+    </g>
+    <!-- distance ruler -->
+    <g id="ruler"></g>
+    <!-- horse -->
+    <g id="horse"><text id="horseEmoji" font-size="64" text-anchor="middle" transform="scale(-1,1)">🐎</text></g>
+    <text id="timer" x="400" y="40" font-size="26" text-anchor="middle" fill="#c46a00" font-weight="bold"></text>
+  </svg>
+
+  <div class="ctrl">
+    <label>🪣 Load (bucket weight)
+      <div class="v"><span id="mV">50</span> kg</div>
+      <div class="pm"><button data-t="m" data-s="-10">−</button><input type="range" id="m" min="10" max="400" step="10" value="50" aria-label="Load in kg"><button data-t="m" data-s="10">+</button></div>
+    </label>
+    <label>📏 Distance (how far)
+      <div class="v"><span id="dV">10</span> m</div>
+      <div class="pm"><button data-t="d" data-s="-1">−</button><input type="range" id="d" min="1" max="30" step="1" value="10" aria-label="Distance in metres"><button data-t="d" data-s="1">+</button></div>
+    </label>
+    <label>⏱️ Time taken
+      <div class="v"><span id="tV">10</span> s</div>
+      <div class="pm"><button data-t="t" data-s="-1">−</button><input type="range" id="t" min="1" max="60" step="1" value="10" aria-label="Time in seconds"><button data-t="t" data-s="1">+</button></div>
+    </label>
+  </div>
+
+  <button class="btn" id="go">🐎 Go, horse!</button>
+  <button class="btn blue" id="reset">🔄 Reset</button>
+  <p class="hint" id="speedNote"></p>
+
+  <div class="calc">
+    <div class="step">💪 Force = load × 9.8<span id="F">490 N</span></div>
+    <div class="step">🔨 Work = force × distance<span id="W">4,900 J</span></div>
+    <div class="step">⚡ Power = work ÷ time<span id="P">490 W</span></div>
+    <div class="step hp">🐎 Horsepower = power ÷ 746<span id="HP">0.66 hp</span></div>
+  </div>
+  <div class="horses" id="horses"></div>
+  <div class="verdict" id="verdict"></div>
+</div>
+
+<!-- PART 3 -->
+<div class="box">
+  <h2>3. Same work, different time ⏱️</h2>
+  <p>Work stays the same if the load and distance stay the same. But doing it <b>faster</b> needs <b>more power</b>!</p>
+  <svg id="race" viewBox="0 0 800 220" aria-label="Two horses doing the same work in different times">
+    <rect width="800" height="220" fill="#f6fbef" rx="18"/>
+    <line x1="60" y1="20" x2="60" y2="200" stroke="#2bb673" stroke-width="3" stroke-dasharray="6 5"/>
+    <line x1="740" y1="20" x2="740" y2="200" stroke="#e75480" stroke-width="4"/>
+    <text x="740" y="16" font-size="14" text-anchor="middle" fill="#e75480">FINISH</text>
+    <line x1="40" y1="100" x2="760" y2="100" stroke="#ddd" stroke-width="2"/>
+    <g id="h1"><text font-size="50" text-anchor="middle" transform="scale(-1,1)">🐎</text></g>
+    <g id="h2"><text font-size="50" text-anchor="middle" transform="scale(-1,1)">🐴</text></g>
+    <text id="l1" x="20" y="78" font-size="15" fill="#555"></text>
+    <text id="l2" x="20" y="178" font-size="15" fill="#555"></text>
+  </svg>
+  <p class="hint">Both horses lift 100 kg by 10 m (work = 9,800 J).</p>
+  <button class="btn" id="raceBtn">🏁 Start the race</button>
+  <div class="verdict" id="raceOut"></div>
+</div>
+
+<!-- PART 4 -->
+<div class="box">
+  <h2>4. Challenge: make exactly 1 horsepower! 🎯</h2>
+  <p>Go back to Part 2. Change load, distance and time until the horsepower is <b>1.00 hp</b> (between 0.95 and 1.05 is OK).</p>
+  <div class="verdict" id="challenge">Not yet... keep trying! 💪</div>
+  <p class="hint">Hint: 76 kg, 10 m, 10 s is very close. Can you find another way?</p>
+</div>
+
+<!-- PART 5 -->
+<div class="box">
+  <h2>5. How many horses inside? 🚗</h2>
+  <p>Tap a picture to see how many horses it is like. (Numbers are approximate.)</p>
+  <div class="examples" id="examples"></div>
+  <div class="exOut" id="exOut"></div>
+</div>
+
+<!-- PART 6 -->
+<div class="box">
+  <h2>6. Remember 🧠</h2>
+  <div class="story">
+    <div class="card"><h3>🔨 Work</h3>Work is done when a force moves something. <b>Work = Force × Distance</b>. Unit: joule (J).</div>
+    <div class="card"><h3>⚡ Power</h3>Power tells how <b>fast</b> work is done. <b>Power = Work ÷ Time</b>. Unit: watt (W).</div>
+    <div class="card"><h3>🐎 Horsepower</h3>An old unit of power. <b>1 hp ≈ 746 W</b>. Used for engines, motors and pumps.</div>
+    <div class="card"><h3>💡 Faster = more power</h3>Same work in <b>half the time</b> needs <b>double the power</b>.</div>
+  </div>
+</div>
+
+<!-- PART 7 -->
+<div class="box">
+  <h2>7. Quiz time! 🎯</h2>
+  <div id="quiz"></div>
+  <p class="big">Score: <b id="score">0</b> / <span id="total">0</span></p>
+</div>
+
+<footer>Made with love for Jianna 💕</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const G=9.8, HPW=746;
+const fmt=n=>Math.round(n).toLocaleString("en-IN");
+
+/* ---------- scene ---------- */
+const TRACK0=190, TRACK1=740, HORSE_Y=205, PULLEY_X=128, PULLEY_Y=108;
+const BUCKET_LOW=325, BUCKET_HIGH=130;
+let progress=0, running=false;
+
+function buildRuler(){
+  const d=+$("d").value, g=$("ruler"); g.innerHTML="";
+  const ns="http://www.w3.org/2000/svg";
+  const line=document.createElementNS(ns,"line");
+  [["x1",TRACK0],["x2",TRACK1],["y1",240],["y2",240],["stroke","#5d8a3a"],["stroke-width",3]].forEach(([k,v])=>line.setAttribute(k,v)); g.appendChild(line);
+  const step=d<=10?1:d<=20?2:5;
+  for(let i=0;i<=d;i+=step){
+    const x=TRACK0+(TRACK1-TRACK0)*i/d;
+    const t=document.createElementNS(ns,"line");
+    [["x1",x],["x2",x],["y1",234],["y2",246],["stroke","#5d8a3a"],["stroke-width",2]].forEach(([k,v])=>t.setAttribute(k,v)); g.appendChild(t);
+    const tx=document.createElementNS(ns,"text");
+    [["x",x],["y",264],["font-size",14],["text-anchor","middle"],["fill","#3d6b22"]].forEach(([k,v])=>tx.setAttribute(k,v));
+    tx.textContent=i+(i===d?" m":""); g.appendChild(tx);
+  }
+}
+function drawScene(){
+  const hx=TRACK0+(TRACK1-TRACK0)*progress;
+  $("horse").setAttribute("transform",`translate(${hx},${HORSE_Y})`);
+  $("horseEmoji").setAttribute("x",-0);
+  const by=BUCKET_LOW-(BUCKET_LOW-BUCKET_HIGH)*progress;
+  $("bucket").setAttribute("transform",`translate(96,${by})`);
+  $("ropeV").setAttribute("y2",by-8);
+  $("ropeH").setAttribute("points",`${PULLEY_X},${PULLEY_Y} ${hx-34},${HORSE_Y-28}`);
+  $("spoke").setAttribute("transform",`rotate(${progress*720} 112 108)`);
+}
+
+/* ---------- maths ---------- */
+let lastHP=0;
+function calc(){
+  const m=+$("m").value, d=+$("d").value, t=+$("t").value;
+  $("mV").textContent=m; $("dV").textContent=d; $("tV").textContent=t; $("kgT").textContent=m+"kg";
+  const F=m*G, W=F*d, P=W/t, hp=P/HPW; lastHP=hp;
+  $("F").textContent=fmt(F)+" N";
+  $("W").textContent=fmt(W)+" J";
+  $("P").textContent=fmt(P)+" W";
+  $("HP").textContent=hp.toFixed(2)+" hp";
+  // horse row
+  const shown=Math.min(hp,20), full=Math.floor(shown), frac=shown-full;
+  let html="🐎".repeat(full);
+  if(frac>0.05) html+=`<span class="part" style="width:${(frac*1.1).toFixed(2)}em">🐎</span>`;
+  if(hp>20) html+=" <small>+ more!</small>";
+  $("horses").innerHTML=html||"<small>less than a tiny bit of a horse</small>";
+  let v;
+  if(hp<0.2) v="😴 Very easy. Even a <b>child</b> could do this!";
+  else if(hp<0.95) v=`🙂 One horse can do this easily. It uses only <b>${Math.round(hp*100)}%</b> of 1 hp.`;
+  else if(hp<=1.05) v="🎯 Wow! That is about <b>1 horsepower</b>, the work of one strong horse!";
+  else if(hp<5) v=`😮 That needs about <b>${hp.toFixed(1)} horses</b> working together!`;
+  else if(hp<50) v=`🚜 That is <b>${hp.toFixed(0)} hp</b>, like a small tractor or car engine!`;
+  else v=`🚀 <b>${fmt(hp)} hp</b>! Only a big machine can do that so fast!`;
+  $("verdict").innerHTML=v;
+  const ok=hp>=0.95&&hp<=1.05;
+  $("challenge").innerHTML=ok?`🎉 You did it! ${m} kg × 9.8 × ${d} m ÷ ${t} s = <b>${hp.toFixed(2)} hp</b>`:`Now: <b>${hp.toFixed(2)} hp</b>. Not yet... keep trying! 💪`;
+  $("speedNote").textContent=t>10?`The animation is sped up (real time: ${t} s).`:"";
+}
+["m","d","t"].forEach(id=>$(id).addEventListener("input",()=>{if(id==="d")buildRuler();if(!running){progress=0;drawScene();}calc();}));
+document.querySelectorAll(".pm button").forEach(b=>b.onclick=()=>{
+  const inp=$(b.dataset.t);inp.value=Math.min(+inp.max,Math.max(+inp.min,+inp.value+ +b.dataset.s));
+  inp.dispatchEvent(new Event("input"));
+});
+
+$("go").onclick=()=>{
+  if(running)return; running=true; $("go").disabled=true; progress=0;
+  const t=+$("t").value, dur=Math.min(t,10)*1000, start=performance.now();
+  (function step(now){
+    const f=Math.min(1,(now-start)/dur); progress=f; drawScene();
+    $("timer").textContent=`⏱️ ${(f*t).toFixed(1)} s · ${(f*+$("d").value).toFixed(1)} m`;
+    if(f<1)requestAnimationFrame(step);
+    else{running=false;$("go").disabled=false;$("go").textContent="🐎 Go again!";$("timer").textContent=`✅ Done! ${$("d").value} m in ${t} s`;}
+  })(start);
+};
+$("reset").onclick=()=>{if(running)return;progress=0;drawScene();$("timer").textContent="";};
+
+buildRuler(); drawScene(); calc();
+
+/* ---------- race ---------- */
+(function(){
+  const W=100*G*10;
+  function place(p1,p2){
+    $("h1").setAttribute("transform",`translate(${60+680*p1},90)`);
+    $("h2").setAttribute("transform",`translate(${60+680*p2},190)`);
+  }
+  $("l1").textContent="Fast horse: 5 s"; $("l2").textContent="Slow horse: 10 s";
+  place(0,0);
+  $("raceBtn").onclick=()=>{
+    $("raceBtn").disabled=true; $("raceOut").innerHTML=""; const start=performance.now();
+    (function step(now){
+      const s=(now-start)/1000;
+      place(Math.min(1,s/5),Math.min(1,s/10));
+      if(s<10)requestAnimationFrame(step);
+      else{$("raceBtn").disabled=false;$("raceBtn").textContent="🏁 Race again";
+        $("raceOut").innerHTML=`Fast horse: ${fmt(W)} J ÷ 5 s = <b>${fmt(W/5)} W ≈ ${(W/5/HPW).toFixed(1)} hp</b><br>Slow horse: ${fmt(W)} J ÷ 10 s = <b>${fmt(W/10)} W ≈ ${(W/10/HPW).toFixed(1)} hp</b><br>➡️ Same work, but <b>half the time = double the power!</b>`;}
+    })(start);
+  };
+})();
+
+/* ---------- examples ---------- */
+const EX=[
+  {ic:"🧒",n:"You (a child)",hp:0.1,t:"Climbing stairs fast, a child gives about 0.1 to 0.3 hp for a short time."},
+  {ic:"🚲",n:"Bicycle rider",hp:0.25,t:"A grown-up cycling steadily gives about a quarter of a horsepower."},
+  {ic:"🐎",n:"Real horse",hp:1,t:"A horse can work at about 1 hp for a long time, and much more in a short burst."},
+  {ic:"🛵",n:"Scooter",hp:8,t:"A family scooter engine is about 8 hp."},
+  {ic:"🚗",n:"Small car",hp:70,t:"A small family car is about 70 hp."},
+  {ic:"🚜",n:"Tractor",hp:45,t:"A farm tractor is about 45 hp, good for pulling heavy ploughs."},
+  {ic:"🚚",n:"Big truck",hp:300,t:"A big lorry engine is about 300 hp."},
+  {ic:"🚆",n:"Electric train engine",hp:6000,t:"A big electric train engine is about 6,000 hp!"}
+];
+(function(){
+  const box=$("examples");
+  EX.forEach((e,i)=>{const d=document.createElement("div");d.className="ex";d.innerHTML=`<div class="ic">${e.ic}</div><b>${e.n}</b><small>tap me</small>`;
+    d.onclick=()=>{[...box.children].forEach(c=>c.classList.remove("on"));d.classList.add("on");
+      const show=e.hp>=1?"🐎".repeat(Math.min(10,Math.round(e.hp)))+(e.hp>10?" ×"+fmt(e.hp/10)+" rows!":""):`<span class="part" style="width:${(e.hp*1.1).toFixed(2)}em">🐎</span>`;
+      $("exOut").innerHTML=`<b>${e.n}: about ${e.hp<1?e.hp:fmt(e.hp)} hp</b> (≈ ${fmt(e.hp*HPW)} W)<br><span style="font-size:30px">${show}</span><br>${e.t}`;};
+    box.appendChild(d);});
+})();
+
+/* ---------- quiz ---------- */
+const qs=[
+  {q:"Who started using the word 'horsepower'?",o:["Isaac Newton","James Watt","Albert Einstein"],a:1,e:"James Watt used it to compare his steam engines with horses."},
+  {q:"Power tells us…",o:["How heavy something is","How fast work is done","How long something is"],a:1,e:"Power = Work ÷ Time."},
+  {q:"1 horsepower is about…",o:["746 watts","100 watts","10 watts"],a:0,e:"1 hp ≈ 746 W."},
+  {q:"Work = Force × …",o:["Time","Distance","Speed"],a:1,e:"Work = Force × Distance."},
+  {q:"Two horses do the same work. One takes 5 s, the other 10 s. Which has more power?",o:["The 5 s horse","The 10 s horse","Both the same"],a:0,e:"Less time for the same work means more power."},
+  {q:"An engine does 7,460 J of work every second. How many hp?",o:["1 hp","10 hp","100 hp"],a:1,e:"7,460 W ÷ 746 = 10 hp."},
+  {q:"The unit of power is…",o:["Joule","Newton","Watt"],a:2,e:"Power is measured in watts (W)."}
+];
+(function(){
+  let score=0;$("total").textContent=qs.length;
+  qs.forEach((q,i)=>{const d=document.createElement("div");d.className="q";
+    d.innerHTML=`<p>${i+1}. ${q.q}</p><div class="opts"></div><div class="fb"></div>`;
+    const o=d.querySelector(".opts"),fb=d.querySelector(".fb");let done=false;
+    q.o.forEach((t,j)=>{const b=document.createElement("button");b.textContent=t;
+      b.onclick=()=>{if(done)return;done=true;
+        if(j===q.a){b.classList.add("right");score++;$("score").textContent=score;fb.textContent="✅ Yes! "+q.e;}
+        else{b.classList.add("wrong");o.children[q.a].classList.add("right");fb.textContent="🙂 Almost! "+q.e;}
+        if(score===qs.length)fb.textContent+="  🎉 Full marks!";};
+      o.appendChild(b);});
+    $("quiz").appendChild(d);});
+})();
+</script>
+</body>
+</html>
