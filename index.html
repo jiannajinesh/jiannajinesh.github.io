@@ -78,6 +78,10 @@
     .yt{display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;text-decoration:none;padding:12px 26px;font-size:19px;border-radius:30px;box-shadow:0 4px 10px rgba(255,0,0,.25)}
     .yt:hover{background:#d90000}
     .yt svg{width:28px;height:20px}
+    .mail{font:inherit;display:inline-block;background:var(--purple);color:#fff;border:none;padding:12px 26px;font-size:19px;border-radius:30px;cursor:pointer}
+    .mail:hover{filter:brightness(1.1)}
+    #mailShow{font-size:18px;margin-top:12px;min-height:26px;word-break:break-all}
+    #mailShow a{color:var(--purple)}
     footer{padding:22px;font-size:14px;color:#777}
     @media(max-width:600px){.box{margin:14px 10px;padding:16px} h1{font-size:36px} .photo{width:140px;height:140px;font-size:64px}}
   </style>
@@ -173,6 +177,14 @@
   <p id="message"></p>
 </div>
 
+<!-- ============ CONTACT ============ -->
+<div class="box">
+  <h2>📧 Contact Me</h2>
+  <p style="font-size:17px">Want to say hello or share a learning idea? Send me an email!</p>
+  <button class="mail" id="mailBtn">📧 Show my email</button>
+  <div id="mailShow"></div>
+</div>
+
 <footer>Made with love by Jianna 💕</footer>
 
 <script>
@@ -249,6 +261,18 @@ function sayHello(){
   document.getElementById("message").textContent = messages[Math.floor(Math.random()*messages.length)];
   celebrate("💖");
 }
+
+// contact: the address is stored in mixed-up pieces so spam robots can't read it
+(function(){
+  const parts = ["moc.liamg", "hsenijannaij"];          // written backwards on purpose
+  const flip = t => t.split("").reverse().join("");
+  document.getElementById("mailBtn").onclick = function(){
+    const addr = flip(parts[1]) + String.fromCharCode(64) + flip(parts[0]);
+    document.getElementById("mailShow").innerHTML =
+      `<a href="mailto:${addr}">${addr}</a><br><small style="color:#777">Tap the address to open your email app.</small>`;
+    this.textContent = "📧 Here it is!";
+  };
+})();
 
 render("all");
 </script>
