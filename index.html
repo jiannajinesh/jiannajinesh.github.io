@@ -3,134 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jianna's World</title>
+  <title>Jianna Jinesh</title>
   <style>
-    body {
-      margin: 0;
-      font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-      background: linear-gradient(180deg, #fde2f3, #e0f0ff);
-      color: #333;
-      text-align: center;
-    }
-    header {
-      padding: 40px 20px;
-    }
-    h1 {
-      font-size: 48px;
-      color: #e75480;
-      margin: 0;
-    }
-    .subtitle {
-      font-size: 20px;
-      color: #555;
-    }
-    .box {
-      background: white;
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      color: #4a90e2;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      font-size: 18px;
-    }
-    li {
-      margin: 8px 0;
-    }
-    button {
-      background: #e75480;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 30px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #c73e6a;
-    }
-    .link-btn {
-      display: inline-block;
-      background: #4a90e2;
-      color: white;
-      text-decoration: none;
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 30px;
-    }
-    .link-btn:hover {
-      background: #357abd;
-    }
-    #message {
-      font-size: 22px;
-      margin-top: 15px;
-      min-height: 30px;
-    }
-    footer {
-      padding: 20px;
-      font-size: 14px;
-      color: #777;
-    }
+    :root{--pink:#e75480;--blue:#4a90e2;--gold:#f5a623;--green:#2bb673;--purple:#8e44ad}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Comic Sans MS","Trebuchet MS",sans-serif;background:linear-gradient(180deg,#fde2f3,#e0f0ff 60%,#fff4dc);color:#333;text-align:center}
+    .box{background:#fff;max-width:860px;margin:20px auto;padding:22px;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    h2{color:var(--blue);margin:4px 0 14px}
+
+    /* hero */
+    header{padding:34px 16px 10px}
+    .photo{width:170px;height:170px;margin:0 auto 14px;border-radius:50%;border:6px solid #fff;box-shadow:0 6px 18px rgba(231,84,128,.35);overflow:hidden;background:linear-gradient(135deg,#ffd1e6,#cfe6ff);display:flex;align-items:center;justify-content:center;font-size:78px}
+    .photo img{width:100%;height:100%;object-fit:cover}
+    h1{font-size:46px;color:var(--pink);margin:0}
+    .tagline{font-size:20px;color:#555;margin:6px 0 0}
+    .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+    .chip{background:#fff;border-radius:20px;padding:7px 14px;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+
+    /* about */
+    .about{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;text-align:left}
+    .info{background:#f6f9ff;border-radius:16px;padding:14px}
+    .info small{color:#777;font-size:14px}
+    .info b{display:block;font-size:18px;margin-top:4px}
+
+    /* schools */
+    .schools{display:grid;gap:14px;text-align:left}
+    .school{display:flex;gap:14px;align-items:center;background:#fff8ec;border-radius:18px;padding:14px}
+    .school .ic{font-size:40px}
+    .school b{font-size:18px;color:#c46a00}
+    .school .now{display:inline-block;background:var(--green);color:#fff;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:6px;vertical-align:middle}
+
+    /* stats */
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+    .stat{background:#eef4ff;border-radius:16px;padding:12px}
+    .stat span{display:block;font-size:30px;font-weight:bold;color:var(--pink)}
+
+    /* filters */
+    .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:16px}
+    .filters button{font:inherit;font-size:15px;border:none;border-radius:20px;padding:8px 16px;cursor:pointer;background:#eef4ff;color:var(--blue)}
+    .filters button.on{background:var(--blue);color:#fff}
+
+    /* timeline */
+    .tl{text-align:left;position:relative;margin-left:8px;padding-left:26px;border-left:4px dotted #f3b6cf}
+    .yr{font-size:19px;font-weight:bold;color:var(--purple);margin:18px 0 8px;position:relative}
+    .yr::before{content:"";position:absolute;left:-38px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--purple);border:4px solid #fff;box-shadow:0 0 0 2px var(--purple)}
+    .item{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #f1f1f7;border-radius:16px;padding:12px;margin:8px 0;cursor:pointer;transition:transform .15s}
+    .item:hover{transform:translateX(4px)}
+    .item .ic{font-size:32px;line-height:1}
+    .item h3{margin:0;font-size:17px}
+    .item p{margin:4px 0 0;font-size:15px;color:#666}
+    .item .badge{display:inline-block;font-size:12px;padding:2px 9px;border-radius:10px;margin-left:6px;vertical-align:middle;color:#fff}
+    .b-win{background:var(--gold)}
+    .b-part{background:var(--blue)}
+    .b-lead{background:var(--green)}
+    .item.win{border-color:#ffe2a8;background:#fffaf0}
+
+    /* tools link */
+    .link-btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:12px 26px;font-size:18px;border-radius:30px}
+    .link-btn:hover{background:#357abd}
+
+    /* fun */
+    button.fun{font:inherit;background:var(--pink);color:#fff;border:none;padding:12px 24px;font-size:18px;border-radius:30px;cursor:pointer}
+    #message{font-size:22px;margin-top:12px;min-height:30px}
+    #confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .cf{position:absolute;top:-30px;font-size:24px;animation:fall 2.2s linear forwards}
+    @keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+
+    .family{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .member{background:#f6f9ff;border-radius:18px;padding:16px}
+    .member .ic{font-size:46px}
+    .member b{display:block;font-size:18px;color:var(--pink);margin-top:4px}
+    .member small{display:block;color:#777;font-size:14px}
+    .member p{margin:6px 0 0;font-size:15px}
+    .yt{display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;text-decoration:none;padding:12px 26px;font-size:19px;border-radius:30px;box-shadow:0 4px 10px rgba(255,0,0,.25)}
+    .yt:hover{background:#d90000}
+    .yt svg{width:28px;height:20px}
+    footer{padding:22px;font-size:14px;color:#777}
+    @media(max-width:600px){.box{margin:14px 10px;padding:16px} h1{font-size:36px} .photo{width:140px;height:140px;font-size:64px}}
   </style>
 </head>
 <body>
+<div id="confetti"></div>
 
-  <header>
-    <h1>🌸 Hi, I'm Jianna! 🌸</h1>
-    <p class="subtitle">Welcome to my little corner of the internet</p>
-  </header>
-
-  <div class="box">
-    <h2>⭐ About Me</h2>
-    <p>I love learning new things, drawing and having fun with my family.</p>
+<!-- ============ HERO ============ -->
+<header>
+  <div class="photo" id="photo">
+    <!-- Add her photo as images/jianna.jpg and it will show here automatically -->
+    <img src="images/jianna.jpg" alt="Jianna Jinesh" onerror="this.remove(); document.getElementById('photo').textContent='👧';">
   </div>
-
-  <div class="box">
-    <h2>💖 My Favourite Things</h2>
-    <ul>
-      <li>🎨 Drawing</li>
-      <li>📚 Story books</li>
-      <li>🦋 Butterflies</li>
-      <li>🍦 Ice cream</li>
-    </ul>
+  <h1>Jianna Jinesh</h1>
+  <p class="tagline">🌸 Curious learner · Little scientist · Dancer · Leader 🌸</p>
+  <div class="chips">
+    <span class="chip">🎂 Born 2016</span>
+    <span class="chip">📍 Thrissur, Kerala</span>
+    <span class="chip">🏫 Class 5</span>
   </div>
+</header>
 
-  <div class="box">
-    <h2>🧠 Interactive Learning Tools</h2>
-    <p>Fun tools to learn science, maths and more!</p>
-    <a class="link-btn" href="inlearntool/index.html">Open Learning Tools →</a>
+<!-- ============ ABOUT ============ -->
+<div class="box">
+  <h2>⭐ About Me</h2>
+  <div class="about">
+    <div class="info"><small>Full name</small><b>Jianna Jinesh</b></div>
+    <div class="info"><small>Born</small><b>2016</b></div>
+    <div class="info"><small>Place</small><b>Thrissur, Kerala</b></div>
+    <div class="info"><small>Studying in</small><b>5th Standard</b></div>
   </div>
+  <p style="font-size:17px;margin-top:16px">I love science experiments, dancing, quizzes and learning about space. 🚀🔬💃</p>
+</div>
 
-  <div class="box">
-    <h2>🎉 Fun Button</h2>
-    <button onclick="sayHello()">Click me!</button>
-    <p id="message"></p>
+<!-- ============ SCHOOLS ============ -->
+<div class="box">
+  <h2>🏫 My Schools</h2>
+  <div class="schools">
+    <div class="school"><div class="ic">🎒</div><div><b>St. Pius X U.P. School, Wadakkanchery</b><span class="now">Now</span><br>Upper Primary · 5th Standard</div></div>
+    <div class="school"><div class="ic">✏️</div><div><b>C.K.C. L.P. School, Rajagiri</b><br>Lower Primary</div></div>
   </div>
+</div>
 
-  <footer>
-    Made with love by Jianna 💕
-  </footer>
+<!-- ============ FAMILY ============ -->
+<div class="box">
+  <h2>👨‍👩‍👧‍👧 My Family</h2>
+  <div class="family">
+    <div class="member"><div class="ic">👨‍🏫</div><small>Father</small><b>Jinesh K. J.</b><p>Assistant Professor<br>Jyothi Engineering College (Autonomous), Thrissur</p></div>
+    <div class="member"><div class="ic">👩‍💼</div><small>Mother</small><b>C. A. Divya Dominic</b><p>Finance and Accounts Officer<br>KILA, Thrissur</p></div>
+    <div class="member"><div class="ic">👧</div><small>Little sister</small><b>Jacinda Jinesh</b><p>Studying in Class 2</p></div>
+  </div>
+</div>
 
-  <script>
-    const messages = [
-      "You are awesome! 🌟",
-      "Have a happy day! 😊",
-      "Keep smiling! 😄",
-      "You can do anything! 🚀",
-      "Thanks for visiting! 💖"
-    ];
+<!-- ============ YOUTUBE ============ -->
+<div class="box">
+  <h2>📺 Our YouTube Channel</h2>
+  <p style="font-size:17px">Watch our videos on <b>Little Comrades</b>! 🎬</p>
+  <a class="yt" href="https://www.youtube.com/@littlecomrades" target="_blank" rel="noopener">
+    <svg viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 5.5 L19 10 L11 14.5 Z" fill="#ff0000"/></svg>
+    Little Comrades
+  </a>
+</div>
 
-    function sayHello() {
-      const pick = Math.floor(Math.random() * messages.length);
-      document.getElementById("message").textContent = messages[pick];
-    }
-  </script>
+<!-- ============ ACHIEVEMENTS ============ -->
+<div class="box">
+  <h2>🏆 Achievements &amp; Participation</h2>
+  <div class="stats">
+    <div class="stat"><span id="sWin">0</span>Prizes &amp; awards</div>
+    <div class="stat"><span id="sPart">0</span>Events joined</div>
+    <div class="stat"><span id="sYears">0</span>Years active</div>
+  </div>
+  <div class="filters" id="filters">
+    <button data-f="all" class="on">All</button>
+    <button data-f="win">🏆 Prizes</button>
+    <button data-f="lead">🎖️ Leadership</button>
+    <button data-f="part">🎉 Participation</button>
+  </div>
+  <div class="tl" id="timeline"></div>
+  <p style="font-size:14px;color:#888;margin-top:16px">Tap any card for a little celebration! 🎉</p>
+</div>
 
+<!-- ============ LEARNING TOOLS ============ -->
+<div class="box">
+  <h2>🧠 Interactive Learning Tools</h2>
+  <p style="font-size:17px">Fun tools to learn science, maths and more!</p>
+  <a class="link-btn" href="inlearntool/index.html">Open Learning Tools →</a>
+</div>
+
+<!-- ============ FUN ============ -->
+<div class="box">
+  <h2>🎉 Fun Button</h2>
+  <button class="fun" onclick="sayHello()">Click me!</button>
+  <p id="message"></p>
+</div>
+
+<footer>Made with love by Jianna 💕</footer>
+
+<script>
+/* ============================================================
+   ADD NEW ACHIEVEMENTS HERE
+   Copy one line, change the words, and save.
+   type: "win" = prize/award, "lead" = leadership, "part" = participation
+   std:  the class/standard (number)
+   ============================================================ */
+const EVENTS = [
+  { std: 2, type: "part", icon: "🚀", title: "NASA Space Apps Challenge", detail: "Participating every year from 2nd standard onwards." },
+  { std: 3, type: "part", icon: "🔬", title: "Sub-District Science Fair: Simple Experiments", detail: "Showed simple science experiments at the sub-district level." },
+  { std: 4, type: "win",  icon: "🏅", title: "LSS Scholarship Winner", detail: "Won the LSS (Lower Secondary Scholarship) exam." },
+  { std: 4, type: "lead", icon: "🎖️", title: "Elected School Leader", detail: "Chosen by classmates to lead the school." },
+  { std: 4, type: "win",  icon: "🏆", title: "Prize at Vijnanotsavam", detail: "Won a prize at the Vijnanotsavam science festival." },
+  { std: 4, type: "part", icon: "🔍", title: "Sub-District Science Fair: Observation Project", detail: "Presented an observation project at the sub-district level." },
+  { std: 0, type: "part", icon: "💃", title: "Dance Competitions", detail: "Took part at school level and Forane level." },
+  { std: 0, type: "part", icon: "❓", title: "Quiz Competitions", detail: "Attended quiz competitions." }
+];
+/* std: 0 means "many years" (shown at the end) */
+
+const BADGE = { win: ["b-win","Prize"], lead: ["b-lead","Leader"], part: ["b-part","Participated"] };
+const ord = n => n + (n===1?"st":n===2?"nd":n===3?"rd":"th");
+
+function render(filter){
+  const tl = document.getElementById("timeline"); tl.innerHTML = "";
+  const list = EVENTS.filter(e => filter==="all" || e.type===filter);
+  const groups = {};
+  list.forEach(e => (groups[e.std] = groups[e.std] || []).push(e));
+  const keys = Object.keys(groups).map(Number).sort((a,b)=> (a===0)-(b===0) || b-a);
+  if(!keys.length){ tl.innerHTML = "<p>Nothing here yet!</p>"; return; }
+  keys.forEach(k => {
+    const h = document.createElement("div"); h.className = "yr";
+    h.textContent = k===0 ? "🌈 Across the years" : `📚 ${ord(k)} Standard`;
+    tl.appendChild(h);
+    groups[k].sort((a,b)=> (a.type==="win"?0:a.type==="lead"?1:2) - (b.type==="win"?0:b.type==="lead"?1:2)).forEach(e => {
+      const d = document.createElement("div"); d.className = "item" + (e.type==="win" ? " win" : "");
+      const [cls,label] = BADGE[e.type];
+      d.innerHTML = `<div class="ic">${e.icon}</div><div><h3>${e.title}<span class="badge ${cls}">${label}</span></h3><p>${e.detail}</p></div>`;
+      d.onclick = () => celebrate(e.type==="win" ? "🏆" : e.type==="lead" ? "⭐" : "🎉");
+      tl.appendChild(d);
+    });
+  });
+}
+
+document.querySelectorAll("#filters button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#filters button").forEach(x => x.classList.toggle("on", x===b));
+  render(b.dataset.f);
+});
+
+// stats
+document.getElementById("sWin").textContent  = EVENTS.filter(e=>e.type!=="part").length;
+document.getElementById("sPart").textContent = EVENTS.filter(e=>e.type==="part").length;
+const stds = EVENTS.map(e=>e.std).filter(n=>n>0);
+document.getElementById("sYears").textContent = stds.length ? (5 - Math.min(...stds) + 1) : 0;
+
+
+// confetti
+function celebrate(sym){
+  const box = document.getElementById("confetti");
+  const set = [sym,"✨","🌸","⭐","🎈"];
+  for(let i=0;i<22;i++){
+    const s = document.createElement("span"); s.className = "cf";
+    s.textContent = set[i % set.length];
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDelay = Math.random()*0.5 + "s";
+    box.appendChild(s); setTimeout(()=>s.remove(), 3000);
+  }
+}
+
+// fun button
+const messages = ["You are awesome! 🌟","Have a happy day! 😊","Keep smiling! 😄","You can do anything! 🚀","Thanks for visiting! 💖"];
+function sayHello(){
+  document.getElementById("message").textContent = messages[Math.floor(Math.random()*messages.length)];
+  celebrate("💖");
+}
+
+render("all");
+</script>
 </body>
 </html>
