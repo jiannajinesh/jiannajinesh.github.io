@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Solar System</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  .ml{font-family:"Noto Sans Malayalam",sans-serif}
+  body{margin:0;font-family:"Comic Sans MS","Trebuchet MS",sans-serif;background:radial-gradient(ellipse at top,#1b2a6b,#070b22 70%);color:#eef;text-align:center;min-height:100vh}
+  a.back{display:inline-block;margin:14px;color:#ffb3d1;text-decoration:none;font-size:17px}
+  h1{font-size:40px;color:#ffd166;margin:6px 0}
+  .sub{font-size:19px;color:#c9d2ff;margin:0 10px 10px}
+  .box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);max-width:900px;margin:18px auto;padding:20px;border-radius:22px}
+  h2{color:#ffd166;margin:4px 0 12px}
+  p{font-size:17px}
+  .tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:10px}
+  .tabs button,.btn{font:inherit;font-size:16px;border:none;border-radius:30px;padding:9px 18px;cursor:pointer;background:rgba(255,255,255,.12);color:#fff}
+  .tabs button.on,.btn.pink{background:#e75480}
+  .btn.blue{background:#4a90e2}
+  svg{width:100%;height:auto;display:block;user-select:none}
+  .planet{cursor:pointer}
+  .ctrl{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin-top:10px;font-size:16px}
+  input[type=range]{width:220px;accent-color:#ffd166;height:30px}
+  .yearbox{font-size:17px;color:#ffd166;margin-top:6px;min-height:24px}
+  .info{display:grid;grid-template-columns:120px 1fr;gap:16px;text-align:left;background:rgba(255,255,255,.08);border-radius:18px;padding:16px;margin-top:14px;align-items:center}
+  .info h3{margin:0 0 6px;font-size:26px}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:8px}
+  .fact{background:rgba(0,0,0,.25);border-radius:12px;padding:8px 10px;font-size:14px}
+  .fact b{display:block;font-size:16px;color:#ffd166}
+  .fun{margin-top:10px;font-size:16px;background:rgba(255,209,102,.12);border-left:4px solid #ffd166;padding:8px 12px;border-radius:0 10px 10px 0}
+  @media(max-width:600px){.info{grid-template-columns:1fr;text-align:center}.info .facts{grid-template-columns:1fr 1fr}.box{margin:14px 8px;padding:14px}h1{font-size:32px}}
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}
+  .chips button{font:inherit;font-size:15px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;border-radius:20px;padding:6px 14px;cursor:pointer}
+  .chips button.done{border-color:#2bb673;background:rgba(43,182,115,.25)}
+  .chips button.bad{border-color:#e75480;animation:shake .3s}
+  @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .order{font-size:26px;min-height:40px;letter-spacing:4px}
+  .msg{font-size:18px;min-height:28px;color:#ffd166}
+  .wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px}
+  .w{background:rgba(255,255,255,.08);border-radius:14px;padding:10px}
+  .w .dot{width:34px;height:34px;border-radius:50%;margin:0 auto 6px}
+  .w b{display:block;font-size:22px;color:#ffd166}
+  input[type=number]{font:inherit;font-size:20px;width:100px;padding:6px;border-radius:12px;border:none;text-align:center}
+  .q{margin:14px 0}
+  .q p{margin:6px 0}
+  .opts button{font-family:inherit,"Noto Sans Malayalam";font-size:16px;font-size:16px;margin:4px;padding:8px 16px;border-radius:12px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;cursor:pointer}
+  .opts button.right{border-color:#2bb673;background:rgba(43,182,115,.3)}
+  .opts button.wrong{border-color:#e75480;background:rgba(231,84,128,.3)}
+  .fb{font-size:15px;min-height:20px;color:#c9d2ff}
+  .hint{font-size:14px;color:#aab4e8}
+  footer{padding:20px;font-size:14px;color:#aab4e8}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Learning Tools</a>
+<h1>🪐 Our Solar System</h1>
+<p class="sub">The Sun and its 8 planets · <span class="ml">സൗരയൂഥം</span></p>
+
+<!-- PART 1: EXPLORE -->
+<div class="box">
+  <h2>1. Explore the planets 🔭</h2>
+  <div class="tabs" id="views">
+    <button data-v="orbit" class="on">🌀 Orbits</button>
+    <button data-v="size">📏 Real sizes</button>
+  </div>
+
+  <svg id="orbitSvg" viewBox="-400 -400 800 800" aria-label="Planets going around the Sun"></svg>
+  <svg id="sizeSvg" viewBox="0 0 900 360" style="display:none" aria-label="Planet sizes compared"></svg>
+
+  <div id="orbitCtrl">
+    <div class="ctrl">
+      <button class="btn pink" id="playBtn">⏸️ Pause</button>
+      <span>🐢</span><input type="range" id="speed" min="1" max="58" value="40" aria-label="Speed"><span>🐇</span>
+      <button class="btn blue" id="labelBtn">🏷️ Names: English</button>
+    </div>
+    <div class="yearbox" id="yearBox"></div>
+    <p class="hint">Tap a planet (or the Sun) to learn about it. Planets close to the Sun go around faster!</p>
+  </div>
+  <p class="hint" id="sizeHint" style="display:none">Sizes are to scale. The Sun is so big only a piece of it fits! Tap a planet to learn about it.</p>
+
+  <div class="info" id="info"></div>
+</div>
+
+<!-- PART 2: ORDER GAME -->
+<div class="box">
+  <h2>2. Put them in order! 🎯</h2>
+  <p>Tap the planets in order, starting from the one <b>closest to the Sun</b>.</p>
+  <div class="chips" id="orderChips"></div>
+  <div class="order" id="orderRow">☀️</div>
+  <div class="msg" id="orderMsg"></div>
+  <button class="btn blue" id="orderReset">🔄 Try again</button>
+  <div class="fun" style="text-align:left;max-width:600px;margin:14px auto 0">💡 <b>Memory trick:</b> <b>M</b>y <b>V</b>ery <b>E</b>asy <b>M</b>ethod <b>J</b>ust <b>S</b>peeds <b>U</b>p <b>N</b>aming<br>(Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune)</div>
+</div>
+
+<!-- PART 3: WEIGHT -->
+<div class="box">
+  <h2>3. How heavy would you be? ⚖️</h2>
+  <p>Each planet pulls with a different force (<b>gravity</b>). Type your weight on Earth:</p>
+  <p><input type="number" id="kg" value="30" min="1" max="200"> kg on Earth 🌍</p>
+  <div class="wgrid" id="wgrid"></div>
+  <p class="hint">Your body stays the same. Only the pull of gravity changes, so the weighing scale shows a different number!</p>
+</div>
+
+<!-- PART 4: REMEMBER -->
+<div class="box">
+  <h2>4. Remember 🧠</h2>
+  <div class="facts" style="text-align:left">
+    <div class="fact"><b>☀️ The Sun</b>A star at the centre. It gives light and heat to all planets.</div>
+    <div class="fact"><b>🌀 Orbit</b>The path a planet takes around the Sun.</div>
+    <div class="fact"><b>🪨 Rocky planets</b>Mercury, Venus, Earth, Mars: small and made of rock.</div>
+    <div class="fact"><b>🎈 Giant planets</b>Jupiter, Saturn, Uranus, Neptune: huge and made mostly of gas and ice.</div>
+    <div class="fact"><b>🌙 Moon</b>A natural object that goes around a planet. Earth has 1 Moon.</div>
+    <div class="fact"><b>🔄 Day & year</b>A day = one spin. A year = one trip around the Sun.</div>
+    <div class="fact"><b>🧊 Pluto</b>Since 2006, Pluto is called a <b>dwarf planet</b>.</div>
+    <div class="fact"><b>🔤 Names in Malayalam</b><span class="ml">സൂര്യൻ (Sun) · ബുധൻ · ശുക്രൻ · ഭൂമി · ചൊവ്വ · വ്യാഴം · ശനി · യുറാനസ് · നെപ്റ്റ്യൂൺ · ചന്ദ്രൻ (Moon)</span></div>
+  </div>
+</div>
+
+<!-- PART 5: QUIZ -->
+<div class="box">
+  <h2>5. Quiz time! 🎯</h2>
+  <div id="quiz"></div>
+  <p style="font-size:22px">Score: <b id="score">0</b> / <span id="total">0</span></p>
+</div>
+
+<footer>Made with love for Jianna 💕</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const NS="http://www.w3.org/2000/svg";
+const mk=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};
+
+const SUN={name:"Sun",ml:"സൂര്യൻ",emoji:"☀️",color:"#ffcc33",dia:1392700,type:"Star",
+  facts:[["Type","A star"],["Size","109 Earths wide"],["Surface heat","about 5,500 °C"],["Age","about 4.6 billion years"]],
+  fun:"Sunlight takes about 8 minutes to reach Earth!"};
+const P=[
+ {name:"Mercury",ml:"ബുധൻ",emoji:"🪨",color:"#b1a9a0",r:4,orbit:70,days:88,dia:4879,dist:"58 million km",day:"59 Earth days",year:"88 days",moons:"0",temp:"-173 to 427 °C",grav:0.38,type:"Rocky",fun:"The smallest planet and the closest to the Sun."},
+ {name:"Venus",ml:"ശുക്രൻ",emoji:"🌕",color:"#e8c27a",r:7,orbit:100,days:225,dia:12104,dist:"108 million km",day:"243 Earth days",year:"225 days",moons:"0",temp:"about 465 °C",grav:0.91,type:"Rocky",fun:"The hottest planet! Thick clouds trap the heat. It also spins backwards."},
+ {name:"Earth",ml:"ഭൂമി",emoji:"🌍",color:"#3d8bfd",r:7.5,orbit:135,days:365,dia:12756,dist:"150 million km",day:"24 hours",year:"365 days",moons:"1",temp:"about 15 °C",grav:1,type:"Rocky",fun:"Our home! The only planet we know with life and liquid water on top."},
+ {name:"Mars",ml:"ചൊവ്വ",emoji:"🔴",color:"#d9573b",r:5.5,orbit:170,days:687,dia:6792,dist:"228 million km",day:"24 h 37 min",year:"687 days",moons:"2",temp:"about -65 °C",grav:0.38,type:"Rocky",fun:"The Red Planet. Its red colour comes from rusty dust. India's Mangalyaan reached Mars in 2014!"},
+ {name:"Jupiter",ml:"വ്യാഴം",emoji:"🟠",color:"#d8a06a",r:17,orbit:225,days:4333,dia:142984,dist:"778 million km",day:"about 10 hours",year:"12 years",moons:"95+",temp:"about -110 °C",grav:2.53,type:"Gas giant",fun:"The biggest planet! Its Great Red Spot is a storm bigger than Earth."},
+ {name:"Saturn",ml:"ശനി",emoji:"🪐",color:"#e9d18f",r:14,orbit:280,days:10759,dia:120536,dist:"1,434 million km",day:"about 10.7 hours",year:"29 years",moons:"270+",temp:"about -140 °C",grav:1.07,type:"Gas giant",ring:true,fun:"Famous for its beautiful rings, made of ice and rock pieces."},
+ {name:"Uranus",ml:"യുറാനസ്",emoji:"🔵",color:"#8fd8e0",r:10,orbit:330,days:30687,dia:51118,dist:"2,871 million km",day:"about 17 hours",year:"84 years",moons:"28+",temp:"about -195 °C",grav:0.89,type:"Ice giant",fun:"It spins lying on its side, like a rolling ball!"},
+ {name:"Neptune",ml:"നെപ്റ്റ്യൂൺ",emoji:"🔷",color:"#4b6cf7",r:9.5,orbit:375,days:60190,dia:49528,dist:"4,495 million km",day:"about 16 hours",year:"165 years",moons:"16",temp:"about -200 °C",grav:1.14,type:"Ice giant",fun:"The windiest planet, with winds faster than a jet plane!"}
+];
+
+/* ---------- info card ---------- */
+function show(o){
+  const isSun=o===SUN;
+  const facts=isSun?o.facts:[["Type",o.type],["Distance from Sun",o.dist],["Width",o.dia.toLocaleString("en-IN")+" km"],["One day",o.day],["One year",o.year],["Moons",o.moons],["Temperature",o.temp]];
+  const big=isSun?120:Math.max(30,Math.min(110,o.r*6));
+  $("info").innerHTML=`<div><svg viewBox="-60 -60 120 120" style="width:120px;margin:auto">
+      ${o.ring?`<ellipse rx="${big*0.75}" ry="${big*0.2}" fill="none" stroke="#f3e2b0" stroke-width="5" opacity=".8"/>`:""}
+      <circle r="${big/2}" fill="${o.color}"/>${isSun?'<circle r="60" fill="#ffcc33" opacity=".25"/>':""}</svg></div>
+    <div><h3>${o.emoji} ${o.name} <span class="ml" style="color:#ffd166;font-size:22px">· ${o.ml}</span></h3><div class="facts">${facts.map(([a,b])=>`<div class="fact">${a}<b>${b}</b></div>`).join("")}</div>
+    <div class="fun">⭐ ${o.fun}</div></div>`;
+  document.querySelectorAll(".planet").forEach(g=>g.style.opacity=(g.dataset.n===o.name||isSun)?1:.8);
+}
+
+/* ---------- orbit view ---------- */
+const svg=$("orbitSvg");
+for(let i=0;i<90;i++)mk("circle",{cx:Math.random()*800-400,cy:Math.random()*800-400,r:Math.random()*1.4+.3,fill:"#fff",opacity:Math.random()*.7+.2},svg);
+const orbits=mk("g",{},svg);
+P.forEach(p=>mk("circle",{r:p.orbit,fill:"none",stroke:"#ffffff",opacity:.18,"stroke-dasharray":"3 5"},orbits));
+const sunG=mk("g",{class:"planet","data-n":"Sun"},svg);
+mk("circle",{r:46,fill:"#ffcc33",opacity:.18},sunG);mk("circle",{r:36,fill:"#ffcc33"},sunG);mk("circle",{r:28,fill:"#ffe066"},sunG);
+sunG.onclick=()=>show(SUN);
+const K=innerWidth<600?1.9:1;   // bigger planets and names on phones
+const pg=P.map(p=>{
+  const g=mk("g",{class:"planet","data-n":p.name},svg);
+  const pr=Math.min(p.r*K,30);
+  mk("circle",{r:pr+12*K,fill:"transparent"},g);            // bigger tap area
+  if(p.ring)mk("ellipse",{rx:pr*1.8,ry:pr*0.55,fill:"none",stroke:"#f3e2b0","stroke-width":3},g);
+  mk("circle",{r:pr,fill:p.color},g);
+  const t=mk("g",{},g);
+  const te=mk("text",{y:-pr-6,"text-anchor":"middle","font-size":13*K,fill:"#fff"},t);te.textContent=p.name;
+  const tm=mk("text",{y:-pr-6,"text-anchor":"middle","font-size":13*K,fill:"#ffd166",class:"ml"},t);tm.textContent=p.ml;
+  p.te=te;p.tm=tm;p.pr=pr;
+  g.onclick=()=>show(p);
+  p.angle=Math.random()*Math.PI*2; p.g=g; p.label=t; return g;
+});
+let playing=true, labels=true, earthYears=0, last=performance.now();
+function frame(now){
+  const dt=(now-last)/1000; last=now;
+  if(playing){
+    const secPerYear=61-+$("speed").value; // seconds for one Earth year
+    const yearsPassed=dt/secPerYear; earthYears+=yearsPassed;
+    P.forEach(p=>{p.angle+=yearsPassed*2*Math.PI*365/p.days;});
+    $("yearBox").textContent=`🌍 Earth has gone around the Sun ${Math.floor(earthYears)} time${Math.floor(earthYears)===1?"":"s"} (1 Earth year ≈ ${secPerYear} s here)`;
+  }
+  P.forEach(p=>p.g.setAttribute("transform",`translate(${(p.orbit*Math.cos(p.angle)).toFixed(1)},${(p.orbit*Math.sin(p.angle)).toFixed(1)})`));
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+$("playBtn").onclick=()=>{playing=!playing;$("playBtn").textContent=playing?"⏸️ Pause":"▶️ Play";};
+const MODES=["English","മലയാളം","Both","Off"];let mode=2;
+function setLabels(){
+  const m=MODES[mode];
+  P.forEach(p=>{
+    p.label.setAttribute("visibility",m==="Off"?"hidden":"visible");
+    p.te.setAttribute("visibility",(m==="English"||m==="Both")?"visible":"hidden");
+    p.tm.setAttribute("visibility",(m==="മലയാളം"||m==="Both")?"visible":"hidden");
+    // Both: English on top, Malayalam just above the planet
+    p.te.setAttribute("y",m==="Both"?-p.pr-6-15*K:-p.pr-6);
+  });
+  $("labelBtn").textContent="🏷️ Names: "+m;
+  $("labelBtn").classList.toggle("ml",m==="മലയാളം");
+}
+$("labelBtn").onclick=()=>{mode=(mode+1)%MODES.length;setLabels();};
+setLabels();
+
+/* ---------- size view ---------- */
+(function(){
+  const s=$("sizeSvg");
+  mk("rect",{width:900,height:360,fill:"transparent"},s);
+  const scale=0.00128; // px per km (chosen so all 8 planets fit)
+  const sunR=SUN.dia/2*scale;                       // ~1671 px, so only an arc shows
+  const sg=mk("g",{class:"planet","data-n":"Sun"},s);
+  mk("circle",{cx:-sunR+70,cy:180,r:sunR,fill:"#ffcc33"},sg); sg.onclick=()=>show(SUN);
+  const t=mk("text",{x:12,y:30,fill:"#3a2a00","font-size":15,"font-weight":"bold"},s);t.textContent="Sun";
+  const t2=mk("text",{x:12,y:50,fill:"#3a2a00","font-size":13,class:"ml"},s);t2.textContent="സൂര്യൻ";
+  let x=92;
+  P.forEach((p,i)=>{
+    const r=Math.max(2,p.dia/2*scale);
+    if(p.ring) x+=r*0.95;
+    const g=mk("g",{class:"planet","data-n":p.name},s);
+    mk("rect",{x:x-6,y:40,width:2*r+12,height:280,fill:"transparent"},g);
+    if(p.ring)mk("ellipse",{cx:x+r,cy:180,rx:r*1.9,ry:r*0.45,fill:"none",stroke:"#f3e2b0","stroke-width":4},g);
+    mk("circle",{cx:x+r,cy:180,r,fill:p.color},g);
+    const ly=r>30?180+r+22:(i%2?180-r-12:180+r+22);
+    const tx=mk("text",{x:x+r,y:ly,"text-anchor":"middle","font-size":13,fill:"#fff"},g);tx.textContent=p.name;
+    const tm2=mk("text",{x:x+r,y:ly+(ly<180?-15:16),"text-anchor":"middle","font-size":12,fill:"#ffd166",class:"ml"},g);tm2.textContent=p.ml;
+    g.onclick=()=>show(p);
+    x+=2*r+(p.ring?r*0.95+16:16);
+  });
+})();
+document.querySelectorAll("#views button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#views button").forEach(x=>x.classList.toggle("on",x===b));
+  const o=b.dataset.v==="orbit";
+  $("orbitSvg").style.display=o?"":"none";$("orbitCtrl").style.display=o?"":"none";
+  $("sizeSvg").style.display=o?"none":"";$("sizeHint").style.display=o?"none":"";
+});
+show(P[2]);
+
+/* ---------- order game ---------- */
+let next=0;
+function setupOrder(){
+  next=0;$("orderRow").textContent="☀️";$("orderMsg").textContent="";
+  const box=$("orderChips");box.innerHTML="";
+  [...P].sort(()=>Math.random()-.5).forEach(p=>{
+    const b=document.createElement("button");b.innerHTML=`${p.emoji} ${p.name} <span class="ml" style="font-size:13px;opacity:.85">${p.ml}</span>`;
+    b.onclick=()=>{
+      if(b.classList.contains("done"))return;
+      if(p===P[next]){b.classList.add("done");$("orderRow").textContent+=" "+p.emoji;next++;
+        $("orderMsg").textContent=next===8?"🎉 Perfect! You know the order of the planets!":`✅ ${p.name} is number ${next}!`;}
+      else{b.classList.remove("bad");void b.offsetWidth;b.classList.add("bad");$("orderMsg").textContent=`🙂 Not yet. Which planet comes after ${next?P[next-1].name:"the Sun"}?`;}
+    };
+    box.appendChild(b);
+  });
+}
+$("orderReset").onclick=setupOrder; setupOrder();
+
+/* ---------- weight ---------- */
+function weights(){
+  const kg=parseFloat($("kg").value)||0;
+  $("wgrid").innerHTML=[...P.map(p=>[p.name,p.color,p.grav,p.ml]),["Moon","#cfcfcf",0.165,"ചന്ദ്രൻ"]].map(([n,c,g,m])=>
+    `<div class="w"><div class="dot" style="background:${c}"></div>${n}<br><span class="ml" style="font-size:13px;color:#c9d2ff">${m}</span><b>${(kg*g).toFixed(1)} kg</b></div>`).join("");
+}
+$("kg").oninput=weights; weights();
+
+/* ---------- quiz ---------- */
+const qs=[
+  {q:"How many planets are in our solar system?",o:["7","8","9"],a:1,e:"There are 8 planets."},
+  {q:"Which planet is closest to the Sun?",o:["Venus","Mercury","Mars"],a:1,e:"Mercury is the closest."},
+  {q:"Which is the biggest planet?",o:["Saturn","Earth","Jupiter"],a:2,e:"Jupiter is the biggest."},
+  {q:"Which is the hottest planet?",o:["Mercury","Venus","Mars"],a:1,e:"Venus is hottest because its thick clouds trap heat."},
+  {q:"Which planet is called the Red Planet?",o:["Mars","Jupiter","Neptune"],a:0,e:"Mars looks red because of rusty dust."},
+  {q:"Which planet is famous for its rings?",o:["Uranus","Saturn","Mercury"],a:1,e:"Saturn has the most beautiful rings."},
+  {q:"The Sun is a…",o:["Planet","Star","Moon"],a:1,e:"The Sun is a star."},
+  {q:"One trip around the Sun is called a…",o:["Day","Month","Year"],a:2,e:"One trip around the Sun = one year."},
+  {q:"What is Mars called in Malayalam?",o:["ശുക്രൻ","ചൊവ്വ","വ്യാഴം"],a:1,e:"Mars = ചൊവ്വ."},
+  {q:"What is വ്യാഴം in English?",o:["Saturn","Jupiter","Mercury"],a:1,e:"വ്യാഴം = Jupiter, the biggest planet."},
+  {q:"On which planet would you weigh the most?",o:["Jupiter","Mars","Earth"],a:0,e:"Jupiter has the strongest gravity of all the planets."}
+];
+(function(){
+  let score=0;$("total").textContent=qs.length;
+  qs.forEach((q,i)=>{const d=document.createElement("div");d.className="q";
+    d.innerHTML=`<p>${i+1}. ${q.q}</p><div class="opts"></div><div class="fb"></div>`;
+    const o=d.querySelector(".opts"),fb=d.querySelector(".fb");let done=false;
+    q.o.forEach((t,j)=>{const b=document.createElement("button");b.textContent=t;
+      b.onclick=()=>{if(done)return;done=true;
+        if(j===q.a){b.classList.add("right");score++;$("score").textContent=score;fb.textContent="✅ Yes! "+q.e;}
+        else{b.classList.add("wrong");o.children[q.a].classList.add("right");fb.textContent="🙂 Almost! "+q.e;}
+        if(score===qs.length)fb.textContent+="  🎉 Full marks!";};
+      o.appendChild(b);});
+    $("quiz").appendChild(d);});
+})();
+</script>
+</body>
+</html>
